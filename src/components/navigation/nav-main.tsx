@@ -30,7 +30,7 @@ export function Navigation({ children, breadcrumbs }: Props) {
             {breadcrumbs?.map((breadcrumb, index) => (
               <div key={breadcrumb.href}>
                 <Link
-                  className="hover:underline font-bold text-md"
+                  className="hover:underline text-sm"
                   href={breadcrumb.href}
                 >
                   {breadcrumb.title}

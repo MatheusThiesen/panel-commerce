@@ -13,7 +13,7 @@ export function SidebarMain({ className }: SidebarProps) {
         className
       )}
     >
-      <Link href="/inicio">
+      <Link href="/app/inicio">
         <Logo className="w-36 ml-5" />
       </Link>
 

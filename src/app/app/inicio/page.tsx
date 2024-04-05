@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <Navigation breadcrumbs={[{ href: "/inicio", title: "início" }]}>
+    <Navigation breadcrumbs={[{ href: "/app/inicio", title: "início" }]}>
       <div className="w-full flex flex-col items-center">
         <div className="py-12 px-8 w-full max-w-[var(--container-max-width)] flex flex-col">
           <h2 className="text-3xl font-bold">Olá, Ti Alpar Do Brasil!</h2>

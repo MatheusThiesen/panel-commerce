@@ -16,11 +16,11 @@ export function SidebarOption({ data }: Props) {
   const [isActiveLink, setIsActiveLink] = useState(false);
 
   useEffect(() => {
-    if (asHref.startsWith("/" + String(data.href))) {
+    if (asHref.startsWith("/app/" + String(data.href))) {
       return setIsActiveLink(true);
     }
 
-    if (!asHref.startsWith(String("/" + data.href)) && isActiveLink) {
+    if (!asHref.startsWith(String("/app/" + data.href)) && isActiveLink) {
       setIsActiveLink(false);
     }
 

@@ -27,6 +27,8 @@ export default async function HomePage() {
             <Tabs defaultValue="all">
               <TabsList>
                 <TabsTrigger value="all">Todos</TabsTrigger>
+                <TabsTrigger value="a">Ativos</TabsTrigger>
+                <TabsTrigger value="v">Inativos</TabsTrigger>
               </TabsList>
               <TabsContent value="all" className="p-2">
                 <DataTable

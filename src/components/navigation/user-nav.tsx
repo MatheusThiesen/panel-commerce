@@ -1,3 +1,7 @@
+"use client";
+
+import nookies from "nookies";
+
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {
@@ -10,10 +14,14 @@ import {
 } from "../ui/dropdown-menu";
 
 export function UserNav() {
+  function handleLogout() {
+    nookies.destroy(null, "authjs.session-token");
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8  rounded-full">
+        <Button variant="ghost" className="relative h-8 hover:bg-transparent ">
           <Avatar className="size-10 ">
             <AvatarImage src="/avatars/01.png" alt="@shadcn" />
             <AvatarFallback>MT</AvatarFallback>
@@ -32,7 +40,7 @@ export function UserNav() {
           <DropdownMenuItem>Configurações</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Sair</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>Sair</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
