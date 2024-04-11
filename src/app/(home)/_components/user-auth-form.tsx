@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { redirect } from "next/navigation";
 import nookies from "nookies";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -18,9 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { api } from "@/services/apiClient";
 import { toast } from "sonner";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -42,30 +41,35 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     resolver: zodResolver(sessionFormSchema),
   });
 
-  const { register, handleSubmit } = form;
+  const { handleSubmit, watch } = form;
+
+  const pinWatch = watch("pin");
 
   async function handleSendMail({ email }: SessionFormProps) {
     setIsLoading(true);
 
     try {
       if (!isPinCode) {
-        await api.post("/auth/get-pin", { email: email });
+        // await api.post("/auth/get-pin", { email: email });
         setIsPinCode(true);
       } else {
-        toast.warning("Insira o código de segurança", {
-          description:
-            "E necessário que informe o código de segurança que enviamos para seu e-email.",
-        });
+        if (pinWatch && pinWatch.length >= 8) {
+          nookies.set(null, "authjs.session-token", "TESTE", {
+            maxAge: 30 * 24 * 60 * 60,
+            path: "/",
+          });
+          redirect("/app/inicio");
+        } else {
+          toast.warning("Insira o código de segurança", {
+            description:
+              "E necessário que informe o código de segurança que enviamos para seu e-email.",
+          });
+        }
       }
     } catch (error) {
     } finally {
       setIsLoading(false);
     }
-
-    nookies.set(null, "authjs.session-tokenn", "TESTE", {
-      maxAge: 30 * 24 * 60 * 60,
-      path: "/",
-    });
   }
 
   return (
@@ -111,7 +115,29 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
             {isPinCode && (
               <>
-                <div className="grid gap-1">
+                <FormField
+                  control={form.control}
+                  name="pin"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-slate-900">
+                        E- Enviamos um código de segurança para seu e-mail,
+                        insira ele aqui para acessar painel.
+                      </FormLabel>
+                      <FormControl>
+                        <InputOTP
+                          name={field.name}
+                          onChange={field.onChange}
+                          onBlur={field.onBlur}
+                          className="text-slate-900"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* <div className="grid gap-1">
                   <Label
                     className="text-slate-600 mb-1 my-2"
                     htmlFor="password"
@@ -120,8 +146,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                     aqui para acessar painel.
                   </Label>
                   <InputOTP {...register("pin")} />
-                </div>
+                </div> */}
                 <Button
+                  type="submit"
                   disabled={isLoading}
                   className="mt-3 bg-red-600 text-white hover:bg-red-700"
                 >

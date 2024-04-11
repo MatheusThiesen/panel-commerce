@@ -44,9 +44,6 @@ export default async function HomePage() {
                   columns={columns}
                 />
               </TabsContent>
-              <TabsContent value="password">
-                Change your password here.
-              </TabsContent>
             </Tabs>
           </div>
         </div>
