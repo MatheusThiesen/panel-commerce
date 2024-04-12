@@ -7,6 +7,8 @@
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
+    --panel: 228, 38%, 97%;
+
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
 
@@ -41,8 +43,11 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 222, 47%, 11%;
+    /* --background: 222.2 84% 4.9%; */
     --foreground: 210 40% 98%;
+
+    --panel: 222.2 84% 4.9%;
 
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
@@ -118,6 +123,7 @@ body {
   width: calc(100vw - var(--layout-sidebar-width));
   height: 100%;
   overflow-y: scroll;
+  background-color: hsl(var(--panel));
 }
 
 @media only screen and (max-width: 768px) {

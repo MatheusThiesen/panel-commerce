@@ -2,11 +2,13 @@
 
 import { useProducts } from "@/hooks/queries/useProducts";
 import { PaginationState } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { columns } from "./table/columns";
 import { DataTable } from "./table/data-table";
 
 export function TableProductAll() {
+  const router = useRouter();
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -32,7 +34,7 @@ export function TableProductAll() {
       total={data?.total ?? 0}
       pagination={pagination}
       setPagination={setPagination}
-      onClickRow={(row) => alert(row)}
+      onClickRow={(row) => router.push(`/app/produtos/${row.id}`)}
     />
   );
 }

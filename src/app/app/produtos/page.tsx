@@ -12,8 +12,8 @@ export default async function HomePage() {
   return (
     <Navigation
       breadcrumbs={[
-        { href: "/inicio", title: "início" },
-        { href: "/produtos", title: "produtos" },
+        { href: "/app/inicio", title: "início" },
+        { href: "/app/produtos", title: "produtos" },
       ]}
     >
       <div className="flex flex-col items-center w-full p-8">
@@ -23,7 +23,7 @@ export default async function HomePage() {
           </div>
 
           <div className="bg-box rounded-lg p-1">
-            <Tabs defaultValue="all">
+            <Tabs defaultValue="all" className="bg-background rounded-md">
               <TabsList>
                 <TabsTrigger value="all">Todos</TabsTrigger>
               </TabsList>

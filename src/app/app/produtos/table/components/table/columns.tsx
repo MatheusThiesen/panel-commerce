@@ -46,9 +46,9 @@ export const columns: ColumnDef<Product>[] = [
       return (
         <div className="w-[60px]">
           <img
-            width={60}
-            height={60}
-            className="object-contain"
+            // width={60}
+            // height={60}
+            className="object-contain w-16 h-16"
             src={
               row.getValue("imagemPreview")
                 ? row.getValue("imagemPreview")

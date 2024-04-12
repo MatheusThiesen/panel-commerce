@@ -62,7 +62,7 @@ export function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
     manualPagination: true,
     debugTable: true,
-    pageCount: total / pagination.pageSize,
+    pageCount: Math.ceil(total / pagination.pageSize),
     onPaginationChange: (updater: any) => {
       const updated = updater(pagination);
 

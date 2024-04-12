@@ -81,6 +81,13 @@ export type Product = {
   grades?: {
     codigo: number;
     descricaoAdicional: string;
+    precoVenda: number;
+    precoTabela28: number;
+    locaisEstoque: {
+      id: string;
+      descricao: string;
+      quantidade: number;
+    }[];
   }[];
   listaPreco?: {
     id: string;
@@ -99,11 +106,21 @@ export interface VariationsProduct {
   codigo: number;
   codigoAlternativo: number;
   referencia: string;
+  imagemPreview?: string;
   descricao: string;
 
   imagens?: {
     nome: string;
   }[];
+
+  corPrimaria: {
+    descricao: string;
+  };
+  corSecundaria: {
+    cor: {
+      descricao: string;
+    };
+  };
 }
 
 type ProductApiResponse = {
