@@ -6,8 +6,6 @@ import { Table } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowUpDown, ListFilter, RotateCw } from "lucide-react";
-import { priorities, statuses } from "../data/data";
-import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -26,9 +24,11 @@ export function DataTableToolbar<TData>({
         </Button>
         <Input
           placeholder="Buscar..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("reference")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn("reference")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
@@ -40,27 +40,6 @@ export function DataTableToolbar<TData>({
           <ListFilter className="size-4 mr-2" />
           Filtros
         </Button>
-
-        {table.getColumn("status") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("status")}
-            title="Status"
-            options={statuses}
-          />
-        )}
-        {table.getColumn("priority") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("priority")}
-            title="Priority"
-            options={priorities}
-          />
-        )}
-
-        <DataTableFacetedFilter
-          column={table.getColumn("priority")}
-          title="Priority"
-          options={priorities}
-        />
 
         {isFiltered && (
           <Button

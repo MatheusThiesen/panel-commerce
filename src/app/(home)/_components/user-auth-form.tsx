@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import nookies from "nookies";
 import * as React from "react";
 import { useForm } from "react-hook-form";
@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { api } from "@/services/apiClient";
 import { toast } from "sonner";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -36,6 +37,7 @@ type SessionFormProps = z.infer<typeof sessionFormSchema>;
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isPinCode, setIsPinCode] = React.useState<boolean>(false);
+  const router = useRouter();
 
   const form = useForm<SessionFormProps>({
     resolver: zodResolver(sessionFormSchema),
@@ -50,15 +52,33 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
     try {
       if (!isPinCode) {
-        // await api.post("/auth/get-pin", { email: email });
+        await api.post("/auth/get-pin", { email: email });
         setIsPinCode(true);
       } else {
         if (pinWatch && pinWatch.length >= 8) {
-          nookies.set(null, "authjs.session-token", "TESTE", {
-            maxAge: 30 * 24 * 60 * 60,
-            path: "/",
-          });
-          redirect("/app/inicio");
+          try {
+            const getSession = await api.post<{
+              access_token: string;
+              refresh_token: string;
+            }>("/auth/session", { email: email, pin: pinWatch });
+
+            const { access_token, refresh_token } = getSession.data;
+
+            nookies.set(null, "authjs.session-token", access_token, {
+              maxAge: 30 * 24 * 60 * 60,
+              path: "/",
+            });
+            nookies.set(null, "authjs.session-refresh", refresh_token, {
+              maxAge: 30 * 24 * 60 * 60,
+              path: "/",
+            });
+            router.push("/app/inicio");
+          } catch (error) {
+            toast.warning("Código de segurança inválido", {
+              description:
+                "É necessário informar o código de segurança que enviamos para o seu e-mail.",
+            });
+          }
         } else {
           toast.warning("Insira o código de segurança", {
             description:

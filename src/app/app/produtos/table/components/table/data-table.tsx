@@ -2,9 +2,7 @@
 
 import {
   ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
+  PaginationState,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -24,46 +22,54 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  pagination: PaginationState;
+  setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
+  total: number;
+  onClickRow?: (data: TData) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  total,
+  setPagination,
+  pagination,
+  onClickRow,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data,
     columns,
     state: {
-      sorting,
-      columnVisibility,
       rowSelection,
-      columnFilters,
+      pagination: pagination,
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
+    manualPagination: true,
+    debugTable: true,
+    pageCount: total / pagination.pageSize,
+    onPaginationChange: (updater: any) => {
+      const updated = updater(pagination);
+
+      if (updated) {
+        setPagination(updated);
+      }
+    },
   });
 
   return (
@@ -95,6 +101,12 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => {
+                    if (onClickRow) {
+                      onClickRow(row.original);
+                    }
+                  }}
+                  className={cn(onClickRow ? "cursor-pointer" : "")}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

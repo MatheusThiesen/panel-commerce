@@ -1,12 +1,5 @@
 import { Button } from "@/components/ui/button";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   ChevronLeftIcon,
   ChevronRightIcon,
   DoubleArrowLeftIcon,
@@ -28,7 +21,7 @@ export function DataTablePagination<TData>({
         {table.getFilteredRowModel().rows.length} linha(s) selecionadas.
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
+        {/* <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Linhas por pagina</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
@@ -47,8 +40,8 @@ export function DataTablePagination<TData>({
               ))}
             </SelectContent>
           </Select>
-        </div>
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+        </div> */}
+        <div className="flex w-[200px] items-center justify-center text-sm font-medium">
           Pagina {table.getState().pagination.pageIndex + 1} de{" "}
           {table.getPageCount()}
         </div>

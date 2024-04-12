@@ -80,9 +80,12 @@
   }
 }
 
+body {
+  overflow: hidden !important;
+}
+
 .ui-layout {
   height: 100vh;
-  overflow-x: hidden;
   flex-grow: 1;
   display: grid;
   align-items: start;
@@ -113,6 +116,8 @@
   grid-area: ui-layout-content;
   display: flex;
   width: calc(100vw - var(--layout-sidebar-width));
+  height: 100%;
+  overflow-y: scroll;
 }
 
 @media only screen and (max-width: 768px) {

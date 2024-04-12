@@ -1,8 +1,7 @@
 import { Navigation } from "@/components/navigation/nav-main";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Metadata } from "next";
-import { columns } from "./test/components/columns";
-import { DataTable } from "./test/components/data-table";
+import { TableProductAll } from "./table/components/TableProductAll";
 
 export const metadata: Metadata = {
   title: "Produtos | Panel App Alpar do Brasil",
@@ -27,22 +26,9 @@ export default async function HomePage() {
             <Tabs defaultValue="all">
               <TabsList>
                 <TabsTrigger value="all">Todos</TabsTrigger>
-                <TabsTrigger value="a">Ativos</TabsTrigger>
-                <TabsTrigger value="v">Inativos</TabsTrigger>
               </TabsList>
               <TabsContent value="all" className="p-2">
-                <DataTable
-                  data={[
-                    {
-                      id: "1",
-                      label: "teste",
-                      priority: "1",
-                      status: "1",
-                      title: "teste",
-                    },
-                  ]}
-                  columns={columns}
-                />
+                <TableProductAll />
               </TabsContent>
             </Tabs>
           </div>

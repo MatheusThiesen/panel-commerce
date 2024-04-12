@@ -24,7 +24,7 @@ export function Navigation({ children, breadcrumbs }: Props) {
         <SidebarMain />
       </div>
 
-      <div className="ui-layout-navbar border-b">
+      <div className="ui-layout-navbar border-b bg-background">
         <div className="flex h-16 items-center px-4">
           <div className="hidden md:flex ">
             {breadcrumbs?.map((breadcrumb, index) => (
