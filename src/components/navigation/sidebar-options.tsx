@@ -11,8 +11,8 @@ export interface SidebarOptionProps {
 }
 
 export const sidebarOptions: SidebarOptionProps[] = [
-  { title: "Produtos", icon: Tag, href: "produtos" },
-  { title: "Clientes", icon: Store, href: "clientes" },
-  { title: "Vendedores", icon: CircleUser, href: "vendedores" },
-  { title: "Pedidos", icon: ShoppingBag, href: "pedidos" },
+  { title: "Produtos", icon: Tag, href: "/app/produtos" },
+  { title: "Clientes", icon: Store, href: "/app/clientes" },
+  { title: "Vendedores", icon: CircleUser, href: "/app/vendedores" },
+  { title: "Pedidos", icon: ShoppingBag, href: "/app/pedidos" },
 ];

@@ -4,14 +4,17 @@ import { useProducts } from "@/hooks/queries/useProducts";
 import { PaginationState } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { columns } from "./table/columns";
-import { DataTable } from "./table/data-table";
+import { DataTable } from "../../../../components/table/data-table";
+import { columns } from "./columns";
 
-export function TableProductAll() {
+export function TableListProduct() {
   const router = useRouter();
+
+  const [orderby, setOrderby] = useState("asc.cod");
+  const [filters, setFilters] = useState();
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: 30,
   });
   const { data } = useProducts({
     page: pagination.pageIndex + 1,

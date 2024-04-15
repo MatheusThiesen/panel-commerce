@@ -1,22 +1,17 @@
 "use client";
 
-import nookies from "nookies";
-
+import { useAuth } from "@/hooks/useAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
 export function UserNav() {
-  function handleLogout() {
-    nookies.destroy(null, "authjs.session-token");
-  }
+  const { signOut, user } = useAuth();
 
   return (
     <DropdownMenu>
@@ -29,18 +24,20 @@ export function UserNav() {
           <div className="flex flex-col space-y-1 text-start ml-3">
             <p className="text-sm font-medium leading-none">Matheus Thiesen</p>
             <p className="text-xs leading-none text-muted-foreground">
-              matheus.reis@alpardobrasil.com.br
+              {user?.email}
             </p>
           </div>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuGroup>
+        {/* <DropdownMenuGroup>
           <DropdownMenuItem>Perfil</DropdownMenuItem>
           <DropdownMenuItem>Configurações</DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>Sair</DropdownMenuItem>
+        <DropdownMenuSeparator /> */}
+        <DropdownMenuItem onClick={signOut} className="cursor-pointer">
+          Sair
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -12,8 +12,8 @@ type DetailPageProps = {
 };
 export const DetailPage = ({ children }: DetailPageProps) => {
   return (
-    <div className="flex flex-col items-center w-full p-8">
-      <div className="flex flex-col w-full max-w-[var(--container-max-width)]">
+    <div className="flex flex-col items-center w-full px-8 py-6">
+      <div className="flex flex-col w-full max-w-[var(--container-max-width)] pb-10">
         {children}
       </div>
     </div>
@@ -64,7 +64,6 @@ type DetailContentProps = {
 };
 export const DetailContent = ({
   secondaryColumn,
-
   children,
 }: DetailContentProps) => {
   return (
@@ -73,7 +72,7 @@ export const DetailContent = ({
         children
       ) : (
         <>
-          <div className="w-full max-w-full lg:max-w-[65.5%] flex flex-col">
+          <div className="w-full max-w-full lg:max-w-[65.5%] flex flex-col gap-y-6">
             {children}
           </div>
           <div className="w-full  max-w-full lg:max-w-[32%] flex flex-col gap-y-6">
@@ -103,7 +102,7 @@ export const DetailBox = ({ children, className }: DetailBoxProps) => {
 };
 
 type DetailBoxTitleProps = {
-  children: string;
+  children: ReactNode;
   className?: ClassNameValue;
 };
 export const DetailBoxTitle = ({
@@ -111,8 +110,23 @@ export const DetailBoxTitle = ({
   className,
 }: DetailBoxTitleProps) => {
   return (
-    <h3 className={cn("font-bold text-slate-800 text-lg mb-1", className)}>
+    <h3 className={cn("font-bold text-lg", className)}>
       <span>{children}</span>
     </h3>
+  );
+};
+
+type DetailBoxSubtitleProps = {
+  children: ReactNode;
+  className?: ClassNameValue;
+};
+export const DetailBoxSubtitle = ({
+  children,
+  className,
+}: DetailBoxSubtitleProps) => {
+  return (
+    <p className={cn("font-light text-md text-foreground", className)}>
+      <span>{children}</span>
+    </p>
   );
 };

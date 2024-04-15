@@ -7,7 +7,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { InputOTP } from "@/components/InputOTP";
+import { InputOTP } from "@/components/form/InputOTP";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -64,14 +64,17 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
             const { access_token, refresh_token } = getSession.data;
 
-            nookies.set(null, "authjs.session-token", access_token, {
+            nookies.set(null, "auth.session-token", access_token, {
               maxAge: 30 * 24 * 60 * 60,
               path: "/",
             });
-            nookies.set(null, "authjs.session-refresh", refresh_token, {
+            nookies.set(null, "auth.session-refresh", refresh_token, {
               maxAge: 30 * 24 * 60 * 60,
               path: "/",
             });
+
+            window.location.reload();
+
             router.push("/app/inicio");
           } catch (error) {
             toast.warning("Código de segurança inválido", {

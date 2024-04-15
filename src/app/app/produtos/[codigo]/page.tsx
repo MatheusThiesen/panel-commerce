@@ -1,3 +1,4 @@
+import { ImageWithFallback } from "@/components/ImageWithFallback";
 import { GroupInput } from "@/components/form/GroupInput";
 import { InputBase } from "@/components/form/InputBase";
 import { TextareaBase } from "@/components/form/TextareaBase";
@@ -17,12 +18,14 @@ import { Switch } from "@/components/ui/switch";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { spaceImages } from "@/global/parameters";
 import { getProductOne } from "@/hooks/queries/useProducts";
 import { Trash2 } from "lucide-react";
 import { Metadata } from "next";
@@ -67,7 +70,7 @@ export default async function HomePage({ params }: Props) {
                     <>
                       <DetailBox className="flex-row">
                         <div className="flex justify-between items-center">
-                          <Switch />
+                          <Switch checked={!!product.eAtivo} />
                           <span className="ml-2">Ativo</span>
                         </div>
 
@@ -152,6 +155,19 @@ export default async function HomePage({ params }: Props) {
                       label="Características"
                       value={product.descricaoComplementar}
                     />
+
+                    <GroupInput>
+                      <InputBase
+                        name="colorOne"
+                        label="Cor 1"
+                        value={product.corPrimaria?.descricao}
+                      />
+                      <InputBase
+                        name="colorTwo"
+                        label="Cor 2"
+                        value={product.corSecundaria?.cor.descricao ?? "-"}
+                      />
+                    </GroupInput>
                   </DetailBox>
                 </DetailContent>
               </TabsContent>
@@ -174,6 +190,12 @@ export default async function HomePage({ params }: Props) {
                     </GroupInput>
 
                     <Table>
+                      {(product.locaisEstoque?.length ?? 0) <= 0 && (
+                        <TableCaption>
+                          Não há dados a serem exibidos
+                        </TableCaption>
+                      )}
+
                       <TableHeader>
                         <TableRow>
                           <TableHead>Local de estoque</TableHead>
@@ -194,6 +216,11 @@ export default async function HomePage({ params }: Props) {
                     <DetailBoxTitle>Variações</DetailBoxTitle>
 
                     <Table>
+                      {(product.variacoes?.length ?? 0) <= 0 && (
+                        <TableCaption>
+                          Não há dados a serem exibidos
+                        </TableCaption>
+                      )}
                       <TableHeader>
                         <TableRow>
                           <TableHead>Código</TableHead>
@@ -217,7 +244,36 @@ export default async function HomePage({ params }: Props) {
                 </DetailContent>
               </TabsContent>
               <TabsContent value="image" className="p-2">
-                image
+                <DetailContent>
+                  <DetailBox>
+                    <DetailBoxTitle>Biblioteca de Imagens</DetailBoxTitle>
+
+                    {(product.imagens?.length ?? 0) <= 0 && (
+                      <span className="text-slate-400">
+                        Não há imagens cadastradas
+                      </span>
+                    )}
+
+                    <div className="flex flex-wrap gap-4">
+                      {product.imagens?.map((image) => (
+                        <div
+                          key={image.nome}
+                          className="flex justify-center items-center flex-col"
+                        >
+                          <div className="bg-white rounded-lg overflow-hidden border-2 border-slate-400 w-[120px] h-[120px] flex items-center justify-center">
+                            <ImageWithFallback
+                              alt={image.nome}
+                              src={`${spaceImages}/Produtos/${image.nome}`}
+                              height={120}
+                              width={120}
+                            />
+                          </div>
+                          <span className="text-sm">{image.nome}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </DetailBox>
+                </DetailContent>
               </TabsContent>
             </Tabs>
           </DetailMain>

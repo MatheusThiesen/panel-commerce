@@ -10,7 +10,7 @@ export const InputBase = ({ name, label, ...props }: Props) => {
   return (
     <div className="grid flex-1  items-center gap-1">
       {label && (
-        <Label htmlFor={name} className="text-slate-700 text-sm font-normal">
+        <Label htmlFor={name} className="text-sm font-normal">
           {label}
         </Label>
       )}

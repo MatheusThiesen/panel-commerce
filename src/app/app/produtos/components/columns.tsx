@@ -1,11 +1,12 @@
 "use client";
 
+import { ImageWithFallback } from "@/components/ImageWithFallback";
 import { Badge } from "@/components/ui/badge";
 import { defaultNoImage } from "@/global/parameters";
 import { ColumnDef } from "@tanstack/react-table";
 import { z } from "zod";
 
-export const taskSchema = z.object({
+export const productSchema = z.object({
   id: z.string(),
   imagemPreview: z.string().optional(),
   reference: z.string(),
@@ -14,7 +15,7 @@ export const taskSchema = z.object({
   isActive: z.boolean(),
 });
 
-export type Product = z.infer<typeof taskSchema>;
+export type Product = z.infer<typeof productSchema>;
 
 export const columns: ColumnDef<Product>[] = [
   // {
@@ -45,9 +46,9 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       return (
         <div className="w-[60px]">
-          <img
-            // width={60}
-            // height={60}
+          <ImageWithFallback
+            width={60}
+            height={60}
             className="object-contain w-16 h-16"
             src={
               row.getValue("imagemPreview")
@@ -55,10 +56,6 @@ export const columns: ColumnDef<Product>[] = [
                 : defaultNoImage
             }
             alt={row.getValue("description")}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null; // prevents looping
-              currentTarget.src = defaultNoImage;
-            }}
           />
         </div>
       );

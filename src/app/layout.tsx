@@ -1,6 +1,7 @@
 import { ReactQueryClientProvider } from "@/components/ReactQueryClientProvider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/hooks/useAuth";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
@@ -28,7 +29,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
+          <ReactQueryClientProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </ReactQueryClientProvider>
         </ThemeProvider>
       </body>
     </html>
