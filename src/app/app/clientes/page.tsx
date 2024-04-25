@@ -7,7 +7,7 @@ import {
 import { Navigation } from "@/components/navigation/nav-main";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Metadata } from "next";
-import { TableListClient } from "./components/TableListClient";
+import { TableListClient } from "./_components/TableListClient";
 
 export const metadata: Metadata = {
   title: "Clientes | Panel App Alpar do Brasil",

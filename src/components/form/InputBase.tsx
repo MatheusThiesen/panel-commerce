@@ -15,7 +15,7 @@ export const InputBase = ({ name, label, ...props }: Props) => {
         </Label>
       )}
 
-      <Input type="email" id={name} {...props} />
+      <Input name={name} {...props} />
     </div>
   );
 };

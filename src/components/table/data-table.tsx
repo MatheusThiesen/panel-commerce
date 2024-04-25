@@ -5,13 +5,11 @@ import {
   PaginationState,
   flexRender,
   getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
   getPaginationRowModel,
-  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { motion } from "framer-motion";
+import { LoaderCircle } from "lucide-react";
 import * as React from "react";
 
 import {
@@ -23,16 +21,24 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { Alert, AlertTitle } from "../ui/alert";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTableOrderbyProps } from "./data-tablet-orderby";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+
   pagination: PaginationState;
   setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
   total: number;
+
+  onReload?: () => void;
   onClickRow?: (data: TData) => void;
+  isLoading?: boolean;
+
+  orderby?: DataTableOrderbyProps;
 }
 
 export function DataTable<TData, TValue>({
@@ -42,26 +48,19 @@ export function DataTable<TData, TValue>({
   setPagination,
   pagination,
   onClickRow,
+  onReload,
+  orderby,
+  isLoading,
 }: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = React.useState({});
-
   const table = useReactTable({
     data,
     columns,
     state: {
-      rowSelection,
       pagination: pagination,
     },
-    enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
     manualPagination: true,
-    debugTable: true,
     pageCount: Math.ceil(total / pagination.pageSize),
     onPaginationChange: (updater: any) => {
       const updated = updater(pagination);
@@ -74,8 +73,23 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
-      <div className="rounded-md border">
+      <DataTableToolbar orderby={orderby} onReload={onReload} />
+      <div className="rounded-md border relative">
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="absolute w-full z-10"
+          >
+            <Alert className="bg-green-100 text-green-600 z-10  w-full">
+              <LoaderCircle className="animate-spin" color="rgba(22 163 74)" />
+              <AlertTitle className="mt-[3.6px] ">
+                Carregando dados da tabela
+              </AlertTitle>
+            </Alert>
+          </motion.div>
+        )}
+
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

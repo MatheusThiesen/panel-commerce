@@ -21,8 +21,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <Toaster richColors closeButton />
-
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -31,6 +29,7 @@ export default function RootLayout({
         >
           <ReactQueryClientProvider>
             <AuthProvider>{children}</AuthProvider>
+            <Toaster richColors closeButton />
           </ReactQueryClientProvider>
         </ThemeProvider>
       </body>

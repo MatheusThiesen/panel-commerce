@@ -1,56 +1,100 @@
 "use client";
 
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { Table } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowUpDown, ListFilter, RotateCw } from "lucide-react";
+import { useDebounce } from "@uidotdev/usehooks";
+import { RotateCw } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { DataTableOrderby, DataTableOrderbyProps } from "./data-tablet-orderby";
 
 interface DataTableToolbarProps<TData> {
-  table: Table<TData>;
+  orderby?: DataTableOrderbyProps;
+  onReload?: () => void;
 }
 
 export function DataTableToolbar<TData>({
-  table,
+  orderby,
+  onReload,
 }: DataTableToolbarProps<TData>) {
-  const isFiltered = table.getState().columnFilters.length > 0;
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const search = searchParams.get("search");
+  const [searchState, setSearchState] = useState<string>(search ?? "");
+  const debouncedSearch = useDebounce(searchState, 300);
+
+  const isFiltered = (search?.length ?? 0) > 0;
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  const handleChangeSearch = useCallback(
+    (value: string) => {
+      router.push(pathname + "?" + createQueryString("search", value));
+    },
+    [router, pathname, createQueryString]
+  );
+
+  useEffect(() => {
+    handleChangeSearch(debouncedSearch ?? "");
+  }, [debouncedSearch, handleChangeSearch]);
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
-        <Button variant="outline" size="sm" className="h-8">
-          <RotateCw className="size-4" />
-        </Button>
+        {onReload && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8"
+            type="button"
+            onClick={onReload}
+          >
+            <RotateCw className="size-4" />
+          </Button>
+        )}
+
         <Input
           placeholder="Buscar..."
-          value={
-            (table.getColumn("reference")?.getFilterValue() as string) ?? ""
-          }
-          onChange={(event) =>
-            table.getColumn("reference")?.setFilterValue(event.target.value)
-          }
+          value={searchState}
+          onChange={(event) => setSearchState(event.target.value)}
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        <Button variant="outline" size="sm" className="h-8">
-          <ArrowUpDown className="size-4 mr-2" />
-          Ordenar
-        </Button>
-        <Button variant="outline" size="sm" className="h-8">
-          <ListFilter className="size-4 mr-2" />
-          Filtros
-        </Button>
 
         {isFiltered && (
           <Button
             variant="ghost"
-            onClick={() => table.resetColumnFilters()}
+            onClick={() => setSearchState("")}
             className="h-8 px-2 lg:px-3"
           >
-            Limpar
-            <Cross2Icon className="ml-2 h-4 w-4" />
+            <span className="hidden md:inline">Limpar</span>
+
+            <Cross2Icon className="size-4 md:ml-2" />
           </Button>
         )}
+
+        {orderby && (
+          <DataTableOrderby
+            data={orderby.data}
+            defaultValue={orderby.defaultValue}
+          />
+        )}
+
+        {/* <Button variant="outline" size="sm" className="h-8">
+          <ListFilter className="size-4 mr-2" />
+          Filtros
+        </Button> */}
       </div>
     </div>
   );

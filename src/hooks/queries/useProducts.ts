@@ -99,7 +99,7 @@ export type Product = {
   imagens?: {
     nome: string;
   }[];
-  imagemPreview?: string;
+  imagemPreview: string;
 };
 
 export interface VariationsProduct {
@@ -140,16 +140,22 @@ type GetProductsResponse = {
 interface GetProductsProps {
   page: number;
   pagesize?: number;
+  orderby?: string;
+  search?: string;
 }
 
 export async function getProducts({
   page,
   pagesize,
+  orderby,
+  search,
 }: GetProductsProps): Promise<GetProductsResponse> {
   const { data } = await api.get<ProductApiResponse>("/panel/products", {
     params: {
       page: page - 1,
       pagesize,
+      orderby,
+      search,
     },
   });
 
@@ -250,10 +256,15 @@ export async function getProductOne(
   return undefined;
 }
 
-export function useProducts({ pagesize, page }: GetProductsProps) {
+export function useProducts({
+  pagesize,
+  page,
+  orderby,
+  search,
+}: GetProductsProps) {
   return useQuery({
-    queryKey: ["products", pagesize, page],
-    queryFn: () => getProducts({ pagesize, page }),
+    queryKey: ["products", pagesize, page, orderby, search],
+    queryFn: () => getProducts({ pagesize, page, orderby, search }),
   });
 }
 export function useProductOne(

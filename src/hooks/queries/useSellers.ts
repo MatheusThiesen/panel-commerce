@@ -35,16 +35,22 @@ type GetSellersResponse = {
 interface GetSellersProps {
   page: number;
   pagesize?: number;
+  orderby?: string;
+  search?: string;
 }
 
 export async function getSellers({
   page,
   pagesize,
+  orderby,
+  search,
 }: GetSellersProps): Promise<GetSellersResponse> {
   const { data } = await api.get<SellerApiResponse>("/panel/sellers", {
     params: {
       page: page - 1,
       pagesize,
+      orderby,
+      search,
     },
   });
 
@@ -72,10 +78,15 @@ export async function getSellerOne(
   return seller;
 }
 
-export function useSellers({ pagesize, page }: GetSellersProps) {
+export function useSellers({
+  pagesize,
+  page,
+  orderby,
+  search,
+}: GetSellersProps) {
   return useQuery({
-    queryKey: ["sellers", pagesize, page],
-    queryFn: () => getSellers({ pagesize, page }),
+    queryKey: ["sellers", pagesize, page, orderby, search],
+    queryFn: () => getSellers({ pagesize, page, orderby, search }),
   });
 }
 export function useSellerOne(

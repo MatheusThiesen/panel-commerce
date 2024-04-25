@@ -60,16 +60,22 @@ type GetClientsResponse = {
 interface GetClientsProps {
   page: number;
   pagesize?: number;
+  orderby?: string;
+  search?: string;
 }
 
 export async function getClients({
   page,
   pagesize,
+  orderby,
+  search,
 }: GetClientsProps): Promise<GetClientsResponse> {
   const { data } = await api.get<ClientApiResponse>("/panel/clients", {
     params: {
       page: page - 1,
       pagesize,
+      orderby,
+      search,
     },
   });
 
@@ -147,10 +153,15 @@ export async function getClientOne(
   return product;
 }
 
-export function useClients({ pagesize, page }: GetClientsProps) {
+export function useClients({
+  pagesize,
+  page,
+  orderby,
+  search,
+}: GetClientsProps) {
   return useQuery({
-    queryKey: ["clients", pagesize, page],
-    queryFn: () => getClients({ pagesize, page }),
+    queryKey: ["clients", pagesize, page, orderby, search],
+    queryFn: () => getClients({ pagesize, page, orderby, search }),
   });
 }
 export function useClientOne(

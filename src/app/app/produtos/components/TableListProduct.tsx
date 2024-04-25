@@ -2,23 +2,27 @@
 
 import { useProducts } from "@/hooks/queries/useProducts";
 import { PaginationState } from "@tanstack/react-table";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { DataTable } from "../../../../components/table/data-table";
 import { columns } from "./columns";
 
 export function TableListProduct() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const [orderby, setOrderby] = useState("asc.cod");
-  const [filters, setFilters] = useState();
+  const orderby = searchParams.get("orderby");
+  const search = searchParams.get("search");
+
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 30,
   });
-  const { data } = useProducts({
+  const { data, refetch, isLoading, isFetching } = useProducts({
     page: pagination.pageIndex + 1,
     pagesize: pagination.pageSize,
+    orderby: orderby ?? "codigo.desc",
+    search: search ?? undefined,
   });
 
   return (
@@ -38,6 +42,19 @@ export function TableListProduct() {
       pagination={pagination}
       setPagination={setPagination}
       onClickRow={(row) => router.push(`/app/produtos/${row.id}`)}
+      onReload={refetch}
+      orderby={{
+        defaultValue: orderby ?? "codigo.desc",
+        data: [
+          { name: "Código (maiores primeiro)", value: "codigo.desc" },
+          { name: "Código (menores primeiro)", value: "codigo.asc" },
+          { name: "Nome (A-Z)", value: "descricao.asc" },
+          { name: "Nome (Z-A)", value: "descricao.desc" },
+          { name: "PDV (maiores primeiro)", value: "precoVenda.desc" },
+          { name: "PDV (menores primeiro)", value: "precoVenda.asc" },
+        ],
+      }}
+      isLoading={isLoading || isFetching}
     />
   );
 }

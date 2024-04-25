@@ -90,6 +90,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         }
       }
     } catch (error) {
+      toast.error("Erro interno", {
+        description:
+          "Ocorreu um erro interno. Por favor, tente novamente mais tarde.",
+      });
     } finally {
       setIsLoading(false);
     }

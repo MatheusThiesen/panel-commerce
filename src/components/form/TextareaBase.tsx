@@ -15,7 +15,7 @@ export const TextareaBase = ({ name, label, ...props }: Props) => {
         </Label>
       )}
 
-      <Textarea type="email" id={name} {...props} />
+      <Textarea name={name} {...props} />
     </div>
   );
 };

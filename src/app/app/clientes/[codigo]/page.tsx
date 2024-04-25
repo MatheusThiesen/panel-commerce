@@ -15,9 +15,11 @@ import {
 import { Navigation } from "@/components/navigation/nav-main";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getClientOne } from "@/hooks/queries/useClients";
 import { Trash2 } from "lucide-react";
 import { Metadata } from "next";
+import { BlocksToClient } from "./_components/blocksToClient";
 
 export const metadata: Metadata = {
   title: "Clientes | Panel App Alpar do Brasil",
@@ -43,143 +45,168 @@ export default async function HomePage({ params }: Props) {
         <DetailPage>
           <DetailHeader>
             <DetailGoBack />
-            <DetailTitle>Detalhe do cliente</DetailTitle>
+            <DetailTitle>{client.razaoSocial}</DetailTitle>
           </DetailHeader>
 
           <DetailMain>
-            <DetailContent
-              secondaryColumn={
-                <>
-                  <DetailBox className="flex-row">
-                    <div className="flex justify-between items-center">
-                      <Switch checked={!!client.eAtivo} />
-                      <span className="ml-2">Ativo</span>
+            <Tabs defaultValue="general">
+              <TabsList>
+                <TabsTrigger value="general">Geral</TabsTrigger>
+                <TabsTrigger value="block">Bloqueios</TabsTrigger>
+              </TabsList>
+              <TabsContent value="general" className="p-2">
+                <DetailContent
+                  secondaryColumn={
+                    <>
+                      <DetailBox className="flex-row">
+                        <div className="flex justify-between items-center">
+                          <Switch checked={!!client.eAtivo} />
+                          <span className="ml-2">Ativo</span>
+                        </div>
+
+                        <Button variant="outline">
+                          <Trash2 />
+                        </Button>
+                      </DetailBox>
+
+                      <DetailBox>
+                        <DetailBoxTitle>Classificação</DetailBoxTitle>
+
+                        <InputBase
+                          name="activity-field"
+                          label="Ramo de Atividade"
+                          value={client.ramoAtividade?.descricao}
+                        />
+
+                        <InputBase
+                          name="concept"
+                          label="Conceito"
+                          value={client.conceito?.descricao}
+                        />
+                      </DetailBox>
+
+                      <DetailBox>
+                        <DetailBoxTitle>Endereço</DetailBoxTitle>
+
+                        <InputBase
+                          name="zip-code"
+                          label="CEP"
+                          value={client.cepFormat}
+                        />
+
+                        <InputBase name="uf" label="UF" value={client.uf} />
+
+                        <InputBase
+                          name="city"
+                          label="Cidade"
+                          value={client.cidade}
+                        />
+
+                        <InputBase
+                          name="address"
+                          label="Endereço"
+                          value={client.logradouro}
+                        />
+
+                        <InputBase
+                          name="addressNumber"
+                          label="Número"
+                          value={client.numero}
+                        />
+
+                        <TextareaBase
+                          name="complement"
+                          label="Complemento"
+                          value={client.complemento}
+                        />
+                      </DetailBox>
+                    </>
+                  }
+                >
+                  <DetailBox className="w-full">
+                    <div>
+                      <DetailBoxTitle>{client.razaoSocial}</DetailBoxTitle>
+                      <DetailBoxSubtitle>{client.cnpjFormat}</DetailBoxSubtitle>
                     </div>
-
-                    <Button variant="outline">
-                      <Trash2 />
-                    </Button>
                   </DetailBox>
 
-                  <DetailBox>
-                    <DetailBoxTitle>Classificação</DetailBoxTitle>
+                  <DetailBox className="w-full">
+                    <DetailBoxTitle>Cadastro</DetailBoxTitle>
 
                     <InputBase
-                      name="activity-field"
-                      label="Ramo de Atividade"
-                      value={client.ramoAtividade?.descricao}
+                      name="code"
+                      label="Código"
+                      value={client.codigo}
                     />
 
                     <InputBase
-                      name="concept"
-                      label="Conceito"
-                      value={client.conceito?.descricao}
+                      name="cnpj"
+                      label="CNPJ"
+                      value={client.cnpjFormat}
+                    />
+
+                    <InputBase
+                      name="name"
+                      label="Nome fantasia"
+                      value={client.nomeFantasia}
+                    />
+
+                    <InputBase
+                      name="socialReason"
+                      label="Razão social"
+                      value={client.razaoSocial}
+                    />
+
+                    <InputBase
+                      name="stateRegistration"
+                      label="Inscrição Estadual"
+                      value={client.incricaoEstadual}
                     />
                   </DetailBox>
 
-                  <DetailBox>
-                    <DetailBoxTitle>Endereço</DetailBoxTitle>
+                  <DetailBox className="w-full">
+                    <DetailBoxTitle>Contatos</DetailBoxTitle>
+
+                    <GroupInput>
+                      <InputBase
+                        name="email"
+                        label="E-mail"
+                        value={client.email}
+                      />
+                      <InputBase
+                        name="email2"
+                        label="E-mail 2"
+                        value={client.email2}
+                      />
+                    </GroupInput>
 
                     <InputBase
-                      name="zip-code"
-                      label="CEP"
-                      value={client.cepFormat}
+                      name="cellPhone"
+                      label="Celular"
+                      value={client.celularFormat}
                     />
 
-                    <InputBase name="uf" label="UF" value={client.uf} />
-
-                    <InputBase
-                      name="city"
-                      label="Cidade"
-                      value={client.cidade}
-                    />
-
-                    <InputBase
-                      name="address"
-                      label="Endereço"
-                      value={client.logradouro}
-                    />
-
-                    <InputBase
-                      name="addressNumber"
-                      label="Número"
-                      value={client.numero}
-                    />
-
-                    <TextareaBase
-                      name="complement"
-                      label="Complemento"
-                      value={client.complemento}
-                    />
+                    <GroupInput>
+                      <InputBase
+                        name="phone"
+                        label="Telefone"
+                        value={client.telefoneFormat}
+                      />
+                      <InputBase
+                        name="phone2"
+                        label="Telefone 2"
+                        value={client.telefone2Format}
+                      />
+                    </GroupInput>
                   </DetailBox>
-                </>
-              }
-            >
-              <DetailBox className="w-full">
-                <div>
-                  <DetailBoxTitle>{client.razaoSocial}</DetailBoxTitle>
-                  <DetailBoxSubtitle>{client.cnpjFormat}</DetailBoxSubtitle>
-                </div>
-              </DetailBox>
-
-              <DetailBox className="w-full">
-                <DetailBoxTitle>Cadastro</DetailBoxTitle>
-
-                <InputBase name="code" label="Código" value={client.codigo} />
-
-                <InputBase name="cnpj" label="CNPJ" value={client.cnpjFormat} />
-
-                <InputBase
-                  name="name"
-                  label="Nome fantasia"
-                  value={client.nomeFantasia}
-                />
-
-                <InputBase
-                  name="socialReason"
-                  label="Razão social"
-                  value={client.razaoSocial}
-                />
-
-                <InputBase
-                  name="stateRegistration"
-                  label="Inscrição Estadual"
-                  value={client.incricaoEstadual}
-                />
-              </DetailBox>
-
-              <DetailBox className="w-full">
-                <DetailBoxTitle>Contatos</DetailBoxTitle>
-
-                <GroupInput>
-                  <InputBase name="email" label="E-mail" value={client.email} />
-                  <InputBase
-                    name="email2"
-                    label="E-mail 2"
-                    value={client.email2}
-                  />
-                </GroupInput>
-
-                <InputBase
-                  name="cellPhone"
-                  label="Celular"
-                  value={client.celularFormat}
-                />
-
-                <GroupInput>
-                  <InputBase
-                    name="phone"
-                    label="Telefone"
-                    value={client.telefoneFormat}
-                  />
-                  <InputBase
-                    name="phone2"
-                    label="Telefone 2"
-                    value={client.telefone2Format}
-                  />
-                </GroupInput>
-              </DetailBox>
-            </DetailContent>
+                </DetailContent>
+              </TabsContent>
+              <TabsContent value="block" className="p-2">
+                <DetailContent>
+                  <BlocksToClient client={client} />
+                </DetailContent>
+              </TabsContent>
+            </Tabs>
           </DetailMain>
         </DetailPage>
       </Navigation>

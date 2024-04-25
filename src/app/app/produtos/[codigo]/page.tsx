@@ -64,7 +64,7 @@ export default async function HomePage({ params }: Props) {
                 <TabsTrigger value="stock">Estoques e variações</TabsTrigger>
                 <TabsTrigger value="image">Imagens</TabsTrigger>
               </TabsList>
-              <TabsContent value="general" className="pt-3">
+              <TabsContent value="general" className="pt-2">
                 <DetailContent
                   secondaryColumn={
                     <>

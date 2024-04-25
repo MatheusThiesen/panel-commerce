@@ -9,21 +9,23 @@ import {
 } from "../ui/form";
 import { Input as InputUi } from "../ui/input";
 
-interface Props {
-  control: Control;
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+  control: Control<any>;
   name: string;
   label?: string;
   placeholder?: string;
   description?: string;
 }
 
-export const InputForm = ({
+export function InputForm({
   control,
   name,
   label,
   placeholder,
   description,
-}: Props) => {
+
+  ...rest
+}: Props) {
   return (
     <FormField
       control={control}
@@ -32,7 +34,7 @@ export const InputForm = ({
         <FormItem>
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
-            <InputUi placeholder={placeholder} {...field} />
+            <InputUi placeholder={placeholder} {...rest} {...field} />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
 
@@ -41,4 +43,4 @@ export const InputForm = ({
       )}
     />
   );
-};
+}

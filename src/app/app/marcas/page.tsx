@@ -1,0 +1,43 @@
+import {
+  ListingHeader,
+  ListingMain,
+  ListingPage,
+  ListingTitle,
+} from "@/components/layouts/listing";
+import { Navigation } from "@/components/navigation/nav-main";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Metadata } from "next";
+import { TableListBrand } from "./_components/TableListBrand";
+
+export const metadata: Metadata = {
+  title: "Marcas | Panel App Alpar do Brasil",
+  description: "Pagina de listagem das marcas",
+};
+
+export default function HomePage() {
+  return (
+    <Navigation
+      breadcrumbs={[
+        { href: "/app/inicio", title: "início" },
+        { href: "/app/marcas", title: "marcas" },
+      ]}
+    >
+      <ListingPage>
+        <ListingHeader>
+          <ListingTitle>Minhas marcas</ListingTitle>
+        </ListingHeader>
+
+        <ListingMain>
+          <Tabs defaultValue="all" className="bg-background rounded-md">
+            <TabsList>
+              <TabsTrigger value="all">Todos</TabsTrigger>
+            </TabsList>
+            <TabsContent value="all" className="p-2">
+              <TableListBrand />
+            </TabsContent>
+          </Tabs>
+        </ListingMain>
+      </ListingPage>
+    </Navigation>
+  );
+}
