@@ -1,12 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import nookies from "nookies";
-import * as React from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
 import { InputOTP } from "@/components/form/InputOTP";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
@@ -21,7 +14,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { api } from "@/services/apiClient";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { isAxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import nookies from "nookies";
+import * as React from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -90,6 +90,15 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         }
       }
     } catch (error) {
+      if (isAxiosError(error)) {
+        if ((error.response?.status ?? 600) < 500) {
+          return toast.warning(
+            "Usuário inexistente ou não possui acesso na ferramenta .",
+            {}
+          );
+        }
+      }
+
       toast.error("Erro interno", {
         description:
           "Ocorreu um erro interno. Por favor, tente novamente mais tarde.",

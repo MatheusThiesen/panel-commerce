@@ -22,7 +22,7 @@ export function TableListBrand() {
     page: pagination.pageIndex + 1,
     pagesize: pagination.pageSize,
     orderby: orderby ?? "codigo.desc",
-    search: search ?? undefined,
+    search: search ?? "",
   });
 
   return (

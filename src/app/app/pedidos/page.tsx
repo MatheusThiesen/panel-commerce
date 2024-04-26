@@ -8,7 +8,7 @@ import { Navigation } from "@/components/navigation/nav-main";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Metadata } from "next";
-import { TableListOrder } from "./components/TableListOrder";
+import { TableListOrder } from "./_components/TableListOrder";
 
 export const metadata: Metadata = {
   title: "Pedidos | Panel App Alpar do Brasil",

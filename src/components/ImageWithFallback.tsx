@@ -2,13 +2,13 @@
 
 import { defaultNoImage } from "@/global/parameters";
 import Image, { ImageProps } from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props extends ImageProps {
   fallbackSrc?: string;
 }
 
-const ImageWithFallback = (props: Props) => {
+export const ImageWithFallback = (props: Props) => {
   const {
     src,
     fallbackSrc = defaultNoImage,
@@ -18,6 +18,10 @@ const ImageWithFallback = (props: Props) => {
     ...rest
   } = props;
   const [imgSrc, setImgSrc] = useState(src);
+
+  useEffect(() => {
+    setImgSrc(src);
+  }, [src]);
 
   return (
     <Image
@@ -32,5 +36,3 @@ const ImageWithFallback = (props: Props) => {
     />
   );
 };
-
-export { ImageWithFallback };

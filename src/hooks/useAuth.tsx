@@ -24,8 +24,6 @@ type AuthProviderProps = {
 export const AuthContext = createContext({} as AuthContextData);
 
 export function signOut() {
-  return alert("signOut");
-
   nookies.set({}, "auth.session-token", "", {
     maxAge: -1,
     path: "/",

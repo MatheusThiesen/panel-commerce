@@ -39,12 +39,6 @@ export function setupAPIClient(
           const { "auth.session-refresh": refreshToken } = cookies;
           const originalConfig = error.config;
 
-          if (!refreshToken) {
-            signOut();
-          }
-
-          console.log(isRefreshing);
-
           if (!isRefreshing) {
             isRefreshing = true;
 
@@ -68,7 +62,7 @@ export function setupAPIClient(
                   maxAge: 60 * 60 * 24 * 30, //30 Days
                   path: "/",
                 });
-                setCookie(ctx, "nextauth.refreshToken", refresh_token_new, {
+                setCookie(ctx, "auth.session-refresh", refresh_token_new, {
                   maxAge: 60 * 60 * 24 * 30, //30 Days
                   path: "/",
                 });

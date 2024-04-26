@@ -11,7 +11,9 @@ export default function HomePage() {
     <Navigation breadcrumbs={[{ href: "/app/inicio", title: "início" }]}>
       <div className="w-full flex flex-col items-center">
         <div className="py-12 px-8 w-full max-w-[var(--container-max-width)] flex flex-col">
-          <h2 className="text-3xl font-bold">Olá, Ti Alpar Do Brasil!</h2>
+          <h2 className="text-3xl font-bold">Olá!</h2>
+
+          {/* <h2 className="text-3xl font-bold">Olá, Ti Alpar Do Brasil!</h2> */}
 
           {/* <div className="mt-16 text-xl font-bold">
             <h2>Acesso rápido</h2> */}
