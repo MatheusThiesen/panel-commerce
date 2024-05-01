@@ -21,7 +21,7 @@ export function setupAPIClient(
     baseURL:
       process.env.NODE_ENV !== "development"
         ? "https://api-app.alpardobrasil.com.br/"
-        : "http://0.0.0.0:4444/",
+        : "https://api-app.alpardobrasil.com.br/",
     headers: {
       Authorization: `Bearer ${cookies["auth.session-token"]}`,
     },
