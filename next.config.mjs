@@ -7,6 +7,7 @@ const nextConfig = {
       "digitaloceanspaces.com",
       "alpardobrasil.com.br",
       "dashboard.alpardobrasil.com.br",
+      "https://dashboard.alpardobrasil.com.br",
     ],
   },
 };
