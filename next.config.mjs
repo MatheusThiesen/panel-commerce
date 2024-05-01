@@ -5,6 +5,8 @@ const nextConfig = {
       "alpar2.sfo3.digitaloceanspaces.com",
       "alpar.sfo3.digitaloceanspaces.com",
       "digitaloceanspaces.com",
+      "alpardobrasil.com.br",
+      "dashboard.alpardobrasil.com.br",
     ],
   },
 };
