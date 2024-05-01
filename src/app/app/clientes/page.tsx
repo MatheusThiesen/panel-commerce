@@ -7,6 +7,7 @@ import {
 import { Navigation } from "@/components/navigation/nav-main";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { TableListClient } from "./_components/TableListClient";
 
 export const metadata: Metadata = {
@@ -33,7 +34,9 @@ export default function HomePage() {
               <TabsTrigger value="all">Todos</TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="p-2">
-              <TableListClient />
+              <Suspense>
+                <TableListClient />
+              </Suspense>
             </TabsContent>
           </Tabs>
         </ListingMain>

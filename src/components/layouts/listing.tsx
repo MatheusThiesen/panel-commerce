@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { ReactNode } from "react";
 import { ClassNameValue } from "tailwind-merge";
-import { Button } from "../ui/button";
+import { Button, ButtonProps } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -47,6 +47,27 @@ type ListingMainProps = {
 };
 export const ListingMain = ({ children }: ListingMainProps) => {
   return <div className="bg-box rounded-lg">{children}</div>;
+};
+
+type ListingActionButtonProps = ButtonProps & {
+  className?: ClassNameValue;
+};
+export const ListingActionButton = ({
+  children,
+  className,
+  ...rest
+}: ListingActionButtonProps) => {
+  return (
+    <Button
+      className={cn(
+        "bg-red-600 hover:bg-red-500 font-normal text-white border-2 border-red-700 ml-auto",
+        className
+      )}
+      {...rest}
+    >
+      {children}
+    </Button>
+  );
 };
 
 type ListingOptionsActionsProps = {

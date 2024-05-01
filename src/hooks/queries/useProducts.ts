@@ -19,6 +19,7 @@ export type Brand = {
 
 export type Product = {
   eAtivo: boolean;
+  possuiFoto: boolean;
   codigo: number;
   codigoAlternativo: string;
   referencia: string;

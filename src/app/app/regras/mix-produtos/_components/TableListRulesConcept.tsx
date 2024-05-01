@@ -10,8 +10,6 @@ import { columns } from "./columns";
 
 export function TableListRulesConcept() {
   const searchParams = useSearchParams();
-
-  const orderby = searchParams.get("orderby");
   const search = searchParams.get("search");
 
   const [pagination, setPagination] = useState<PaginationState>({
@@ -21,7 +19,6 @@ export function TableListRulesConcept() {
   const { data, refetch, isLoading, isFetching } = useRulesConcepts({
     page: pagination.pageIndex + 1,
     pagesize: pagination.pageSize,
-    orderby: orderby ?? "codigo.desc",
     search: search ?? "",
   });
 

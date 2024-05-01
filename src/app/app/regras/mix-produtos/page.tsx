@@ -7,11 +7,12 @@ import {
 import { Navigation } from "@/components/navigation/nav-main";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { RulesConceptListingOptionsActions } from "./_components/RulesConceptListingOptionsActions";
 import { TableListRulesConcept } from "./_components/TableListRulesConcept";
 
 export const metadata: Metadata = {
-  title: "Condições pagamento | Panel App Alpar do Brasil",
+  title: "Regra mix de produtos | Panel App Alpar do Brasil",
   description: "Pagina de inicio da ferramenta",
 };
 
@@ -26,7 +27,9 @@ export default function HomePage() {
       <ListingPage>
         <ListingHeader className="flex justify-between">
           <ListingTitle>Minhas regras de mix de produtos</ListingTitle>
-          <RulesConceptListingOptionsActions />
+          <Suspense>
+            <RulesConceptListingOptionsActions />
+          </Suspense>
         </ListingHeader>
 
         <ListingMain>
@@ -35,7 +38,9 @@ export default function HomePage() {
               <TabsTrigger value="all">Todos</TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="p-2">
-              <TableListRulesConcept />
+              <Suspense>
+                <TableListRulesConcept />
+              </Suspense>
             </TabsContent>
           </Tabs>
         </ListingMain>

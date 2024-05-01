@@ -3,13 +3,15 @@
 import { cn } from "@/lib/utils";
 import { useCallback } from "react";
 import { Accept, useDropzone } from "react-dropzone";
+import { ClassNameValue } from "tailwind-merge";
 
 interface DropzoneProps {
   onFileUploaded: (file: File[]) => void;
   accept?: Accept;
+  className?: ClassNameValue;
 }
 
-export function Dropzone({ onFileUploaded, accept }: DropzoneProps) {
+export function Dropzone({ onFileUploaded, accept, className }: DropzoneProps) {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       onFileUploaded(acceptedFiles);
@@ -45,7 +47,8 @@ export function Dropzone({ onFileUploaded, accept }: DropzoneProps) {
       {...getRootProps()}
       className={cn(
         "border-2 border-dashed py-4 px-5 h-40 flex items-center justify-center rounded-md",
-        rederBorderColor()
+        rederBorderColor(),
+        className
       )}
     >
       <input {...getInputProps()} />

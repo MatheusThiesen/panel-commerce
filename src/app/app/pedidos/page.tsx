@@ -8,6 +8,7 @@ import { Navigation } from "@/components/navigation/nav-main";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { TableListOrder } from "./_components/TableListOrder";
 
 export const metadata: Metadata = {
@@ -34,7 +35,9 @@ export default function HomePage() {
               <TabsTrigger value="all">Todos</TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="p-2">
-              <TableListOrder />
+              <Suspense>
+                <TableListOrder />
+              </Suspense>
             </TabsContent>
           </Tabs>
         </ListingMain>

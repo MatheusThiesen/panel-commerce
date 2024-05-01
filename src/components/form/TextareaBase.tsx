@@ -10,7 +10,7 @@ export const TextareaBase = ({ name, label, ...props }: Props) => {
   return (
     <div className="grid w-full items-center gap-1">
       {label && (
-        <Label htmlFor={name} className="text-slate-700 text-sm font-normal">
+        <Label htmlFor={name} className=" text-sm font-normal">
           {label}
         </Label>
       )}

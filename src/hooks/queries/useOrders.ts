@@ -7,6 +7,7 @@ import { GetServerSidePropsContext } from "next";
 import { mask } from "remask";
 import { Client } from "./useClients";
 import { Product } from "./useProducts";
+import { Seller } from "./useSellers";
 
 export const orderStatusStyle = {
   1: { textColor: "text-yellow-600", bgColor: "bg-yellow-600" },
@@ -36,7 +37,7 @@ export type Order = {
   descontoCalculadoFormat?: string;
   descontoPercentual?: number;
   descontoValor?: number;
-  vendedorPendenteDiferenciadoCodigo?: number;
+  vendedorPendenteDiferenciado?: Seller;
   diferenciados: Differentiated[];
   situacaoPedido: {
     codigo: number;
@@ -86,19 +87,16 @@ export type Differentiated = {
   motivoDiferenciado?: string;
 
   passo?: number;
-  descontoCalculado?: number;
+  descontoCalculado: number;
   eFinalizado?: boolean;
   eAprovado?: boolean;
   descontoCalculadoFormat?: string;
   tipoUsuario?: string;
 
-  vendedor?: {
-    codigo: number;
-    nome: string;
-    nomeGuerra: string;
-  };
+  vendedor?: Seller;
 
-  createdAt?: Date;
+  createdAt: Date;
+  createdAtFormat: string;
   updatedAt?: Date;
 };
 
@@ -238,6 +236,21 @@ export async function getOrderOne(
           style: "currency",
           currency: "BRL",
         }
+      ),
+    })),
+
+    diferenciados: order.diferenciados.map((differentiated) => ({
+      ...differentiated,
+      descontoCalculadoFormat: differentiated.descontoCalculado.toLocaleString(
+        "pt-br",
+        {
+          style: "currency",
+          currency: "BRL",
+        }
+      ),
+      createdAtFormat: dateFns.format(
+        differentiated.createdAt,
+        "dd/MM/uuuu à's' HH:mm"
       ),
     })),
   };

@@ -47,17 +47,17 @@ export function CheckboxForm({
   control,
 }: CheckboxFormProps) {
   return (
-    <FormItem className="bg-panel rounded-md">
-      <div className={cn("mb-4", className)}>
-        {label && <FormLabel className="text-base">{label}</FormLabel>}
+    <FormItem className={cn(className)}>
+      <div>
+        {label && <FormLabel>{label}</FormLabel>}
 
         {description && <FormDescription>{description}</FormDescription>}
       </div>
-      <Command className="bg-transparent">
+      <Command className="bg-panel ">
         <CommandInput placeholder="Buscar..." />
         <CommandEmpty>Não há dados a serem exibidos.</CommandEmpty>
 
-        <ScrollArea className="h-64 rounded-md px-4 my-2">
+        <ScrollArea className="h-64 rounded-md ">
           <CommandGroup>
             {data.map((item) => (
               <FormField
@@ -67,7 +67,7 @@ export function CheckboxForm({
                 render={({ field }) => {
                   return (
                     <CommandItem key={item.id}>
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 ">
                         <FormControl>
                           <Checkbox
                             checked={field.value?.includes(item.id)}

@@ -2,6 +2,7 @@
 
 import { GroupInput } from "@/components/form/GroupInput";
 import { InputBase } from "@/components/form/InputBase";
+import { TextareaBase } from "@/components/form/TextareaBase";
 import {
   DetailBox,
   DetailBoxTitle,
@@ -56,7 +57,12 @@ export function OrderMain({ orderCode }: OrderMainProps) {
         <Tabs defaultValue="general">
           <TabsList>
             <TabsTrigger value="general">Geral</TabsTrigger>
-            <TabsTrigger value="integration">Integração</TabsTrigger>
+            {order.registros.length > 0 && (
+              <TabsTrigger value="integration">Integração</TabsTrigger>
+            )}
+            {order.eDiferenciado && (
+              <TabsTrigger value="differentiated">Diferenciado</TabsTrigger>
+            )}
           </TabsList>
           <TabsContent value="general" className="pt-3">
             <DetailContent
@@ -269,6 +275,115 @@ export function OrderMain({ orderCode }: OrderMainProps) {
                       </pre>
                     </div>
                   </div>
+                </DetailBox>
+              ))}
+            </DetailContent>
+          </TabsContent>
+          <TabsContent value="differentiated" className="pt-3">
+            <DetailContent
+              secondaryColumn={
+                order.vendedorPendenteDiferenciado && (
+                  <DetailBox className="w-full">
+                    <DetailBoxTitle>Pendente de aprovação</DetailBoxTitle>
+
+                    <InputBase
+                      name="sellerCod"
+                      label="Código"
+                      defaultValue={order.vendedorPendenteDiferenciado?.codigo}
+                      readOnly
+                    />
+                    <InputBase
+                      name="sellerName"
+                      label="Abreviação"
+                      defaultValue={
+                        order.vendedorPendenteDiferenciado?.nomeGuerra
+                      }
+                      readOnly
+                    />
+                    <InputBase
+                      name="sellerAllName"
+                      label="Nome"
+                      defaultValue={order.vendedorPendenteDiferenciado?.nome}
+                      readOnly
+                    />
+                    <InputBase
+                      name="sellerType"
+                      label="Permissão"
+                      defaultValue={
+                        order.vendedorPendenteDiferenciado?.tipoVendedor
+                      }
+                      readOnly
+                    />
+                  </DetailBox>
+                )
+              }
+            >
+              {order.diferenciados.map((differentiated) => (
+                <DetailBox
+                  className={cn(
+                    "w-full",
+                    differentiated.eAprovado === true
+                      ? "border-green-600 border-4"
+                      : differentiated.eAprovado === false
+                      ? "border-red-600 border-4"
+                      : ""
+                  )}
+                  key={differentiated.id}
+                >
+                  <DetailBoxTitle>
+                    {differentiated.vendedor?.tipoVendedor}
+                  </DetailBoxTitle>
+
+                  <GroupInput>
+                    <InputBase
+                      name="sellerCod"
+                      label="Código"
+                      defaultValue={differentiated.vendedor?.codigo}
+                      readOnly
+                    />
+                    <InputBase
+                      name="sellerAllName"
+                      label="Nome"
+                      defaultValue={differentiated.vendedor?.nome}
+                      readOnly
+                    />
+                  </GroupInput>
+
+                  <DetailBoxTitle>Desconto</DetailBoxTitle>
+
+                  <GroupInput>
+                    <InputBase
+                      name="discountType"
+                      label="Tipo de desconto"
+                      defaultValue={`${differentiated.tipoDesconto} ${
+                        differentiated.tipoDesconto === "PERCENTUAL"
+                          ? `( ${differentiated.descontoPercentual}% )`
+                          : ""
+                      }`}
+                      readOnly
+                    />
+
+                    <InputBase
+                      name="discountValue"
+                      label="Valor"
+                      defaultValue={differentiated.descontoCalculadoFormat}
+                      readOnly
+                    />
+                  </GroupInput>
+
+                  <InputBase
+                    name="createAt"
+                    label="Criado em"
+                    defaultValue={differentiated.createdAtFormat}
+                    readOnly
+                  />
+
+                  <TextareaBase
+                    name="observation"
+                    label="Observação"
+                    defaultValue={differentiated.motivoDiferenciado}
+                    readOnly
+                  />
                 </DetailBox>
               ))}
             </DetailContent>

@@ -21,6 +21,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { Suspense } from "react";
 import { Alert, AlertTitle } from "../ui/alert";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
@@ -37,6 +38,7 @@ interface DataTableProps<TData, TValue> {
   onReload?: () => void;
   onClickRow?: (data: TData) => void;
   isLoading?: boolean;
+  disableSearch?: boolean;
 
   orderby?: DataTableOrderbyProps;
 }
@@ -51,6 +53,7 @@ export function DataTable<TData, TValue>({
   onReload,
   orderby,
   isLoading,
+  disableSearch = false,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -73,7 +76,13 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar orderby={orderby} onReload={onReload} />
+      <Suspense>
+        <DataTableToolbar
+          orderby={orderby}
+          onReload={onReload}
+          disableSearch={disableSearch}
+        />
+      </Suspense>
       <div className="rounded-md border relative">
         {isLoading && (
           <motion.div

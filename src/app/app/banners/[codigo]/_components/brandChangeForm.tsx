@@ -3,7 +3,6 @@
 import { InputForm } from "@/components/form/InputForm";
 import { DetailActionButton } from "@/components/layouts/detail";
 import { Form } from "@/components/ui/form";
-import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Brand } from "@/hooks/queries/useBrands";
 import { api } from "@/services/apiClient";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -66,7 +65,7 @@ export function BrandChangeForm({ brand }: BrandChangeFormProps) {
   async function handleChangeBrand(brand: BrandFormProps) {
     try {
       await updateBrandFn(brand);
-
+      router.push("/app/marcas");
       toast.success("Marca alterada com sucesso", {
         description: "A marca foi alterada com sucesso.",
       });
@@ -94,13 +93,11 @@ export function BrandChangeForm({ brand }: BrandChangeFormProps) {
           control={control}
         />
 
-        <SheetFooter className="mt-auto ">
-          <SheetClose asChild>
-            <DetailActionButton className="p-5" type="submit">
-              Salvar
-            </DetailActionButton>
-          </SheetClose>
-        </SheetFooter>
+        <div className="mt-auto">
+          <DetailActionButton className="p-5" type="submit">
+            Salvar
+          </DetailActionButton>
+        </div>
       </form>
     </Form>
   );

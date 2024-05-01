@@ -233,14 +233,23 @@ export function ProductMain({ productCode }: ProductMainProps) {
           <TabsContent value="image" className="p-2">
             <DetailContent
               secondaryColumn={
-                <DetailBox>
-                  <DetailBoxTitle>Imagem de capa</DetailBoxTitle>
+                <>
+                  <DetailBox className="flex-row">
+                    <div className="flex justify-between items-center">
+                      <Switch checked={!!product.possuiFoto} />
+                      <span className="ml-2">Possui foto</span>
+                    </div>
+                  </DetailBox>
 
-                  <InputBase
-                    name="previewImage"
-                    value={product.imagemPreview}
-                  />
-                </DetailBox>
+                  <DetailBox>
+                    <DetailBoxTitle>Imagem de capa</DetailBoxTitle>
+
+                    <InputBase
+                      name="previewImage"
+                      value={product.imagemPreview}
+                    />
+                  </DetailBox>
+                </>
               }
             >
               <DetailBox>

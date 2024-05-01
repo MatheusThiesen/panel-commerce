@@ -25,7 +25,6 @@ export function RulesConceptListingOptionsActions() {
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
 
-  const orderby = searchParams.get("orderby");
   const search = searchParams.get("search");
 
   const [isShowImportData, setIsShowImportData] = useState(false);
@@ -35,7 +34,6 @@ export function RulesConceptListingOptionsActions() {
     const rules = await getRulesConcept({
       page: 1,
       pagesize: 9999,
-      orderby: orderby ?? undefined,
       search: search ?? undefined,
     });
 

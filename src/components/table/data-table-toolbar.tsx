@@ -13,11 +13,13 @@ import { DataTableOrderby, DataTableOrderbyProps } from "./data-tablet-orderby";
 interface DataTableToolbarProps<TData> {
   orderby?: DataTableOrderbyProps;
   onReload?: () => void;
+  disableSearch?: boolean;
 }
 
 export function DataTableToolbar<TData>({
   orderby,
   onReload,
+  disableSearch = false,
 }: DataTableToolbarProps<TData>) {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -65,12 +67,14 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
 
-        <Input
-          placeholder="Buscar..."
-          value={searchState}
-          onChange={(event) => setSearchState(event.target.value)}
-          className="h-8 w-[150px] lg:w-[250px]"
-        />
+        {!disableSearch && (
+          <Input
+            placeholder="Buscar..."
+            value={searchState}
+            onChange={(event) => setSearchState(event.target.value)}
+            className="h-8 w-[150px] lg:w-[250px]"
+          />
+        )}
 
         {isFiltered && (
           <Button

@@ -8,6 +8,7 @@ import { Navigation } from "@/components/navigation/nav-main";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Metadata } from "next";
 
+import { Suspense } from "react";
 import { RulesPaymentsConditionListingOptionsActions } from "./_components/RulesPaymentsConditionListingOptionsActions";
 import { TableListRulesPaymentsCondition } from "./_components/TableListRulesPaymentsCondition";
 
@@ -27,7 +28,9 @@ export default function HomePage() {
       <ListingPage>
         <ListingHeader className="flex justify-between">
           <ListingTitle>Minhas regras de condições pagamento</ListingTitle>
-          <RulesPaymentsConditionListingOptionsActions />
+          <Suspense>
+            <RulesPaymentsConditionListingOptionsActions />
+          </Suspense>
         </ListingHeader>
 
         <ListingMain>
@@ -36,7 +39,9 @@ export default function HomePage() {
               <TabsTrigger value="all">Todos</TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="p-2">
-              <TableListRulesPaymentsCondition />
+              <Suspense>
+                <TableListRulesPaymentsCondition />
+              </Suspense>
             </TabsContent>
           </Tabs>
         </ListingMain>

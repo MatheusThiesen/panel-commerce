@@ -1,5 +1,4 @@
 import {
-  ListingActionButton,
   ListingHeader,
   ListingMain,
   ListingPage,
@@ -7,14 +6,12 @@ import {
 } from "@/components/layouts/listing";
 import { Navigation } from "@/components/navigation/nav-main";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus } from "lucide-react";
 import { Metadata } from "next";
-import Link from "next/link";
 import { Suspense } from "react";
-import { TableListBanner } from "./_components/TableListBanner";
+import { TableListDiscountAuthority } from "./_components/TableListDiscountAuthority";
 
 export const metadata: Metadata = {
-  title: "Banners | Panel App Alpar do Brasil",
+  title: "Alçada desconto | Panel App Alpar do Brasil",
   description: "Pagina de inicio da ferramenta",
 };
 
@@ -23,19 +20,12 @@ export default function HomePage() {
     <Navigation
       breadcrumbs={[
         { href: "/app/inicio", title: "início" },
-        { href: "/app/banners", title: "Banners" },
+        { href: "/app/alcada-desconto", title: "Alçada desconto" },
       ]}
     >
       <ListingPage>
-        <ListingHeader>
-          <ListingTitle>Meus Banners</ListingTitle>
-
-          <ListingActionButton>
-            <Link href="/app/banners/novo" className="flex">
-              <Plus className="mr-2 size-4" />
-              Criar
-            </Link>
-          </ListingActionButton>
+        <ListingHeader className="flex justify-between">
+          <ListingTitle>Alçada desconto</ListingTitle>
         </ListingHeader>
 
         <ListingMain>
@@ -45,7 +35,7 @@ export default function HomePage() {
             </TabsList>
             <TabsContent value="all" className="p-2">
               <Suspense>
-                <TableListBanner />
+                <TableListDiscountAuthority />
               </Suspense>
             </TabsContent>
           </Tabs>

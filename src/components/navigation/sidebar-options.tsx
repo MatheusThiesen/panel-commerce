@@ -33,10 +33,6 @@ export const sidebarOptions: SidebarOptionProps[] = [
     title: "Marcas",
     icon: Diamond,
     href: "/app/marcas",
-    // subpaths: [
-    //   { title: "Minhas marcas", href: "/app/marcas", exact: true },
-    //   { title: "Bloqueios", href: "/app/marcas/bloqueios" },
-    // ],
   },
   {
     title: "Banner",
@@ -56,6 +52,11 @@ export const sidebarOptions: SidebarOptionProps[] = [
       {
         title: "Mix de produtos",
         href: "/app/regras/mix-produtos",
+        exact: true,
+      },
+      {
+        title: "Alçada desconto",
+        href: "/app/regras/alcada-desconto",
         exact: true,
       },
     ],

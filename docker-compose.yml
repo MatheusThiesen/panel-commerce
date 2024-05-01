@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+  frontend:
+    container_name: commerce-dashboard
+    build: ./
+    restart: always
+    image: commerce-dashboard
+    ports:
+      - 4000:3000
