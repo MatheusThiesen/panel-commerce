@@ -1,7 +1,7 @@
 "use client";
 
 import { defaultNoImage } from "@/global/parameters";
-import Image, { ImageProps } from "next/image";
+import { ImageProps } from "next/image";
 import { useEffect, useState } from "react";
 
 interface Props extends ImageProps {
@@ -17,14 +17,14 @@ export const ImageWithFallback = (props: Props) => {
     alt,
     ...rest
   } = props;
-  const [imgSrc, setImgSrc] = useState(src);
+  const [imgSrc, setImgSrc] = useState<string>(src as string);
 
   useEffect(() => {
-    setImgSrc(src);
+    setImgSrc(src as string);
   }, [src]);
 
   return (
-    <Image
+    <img
       width={width}
       height={height}
       alt={alt}
