@@ -101,16 +101,28 @@ export function SellerMain({ sellerCode }: SellerMainProps) {
                 <InputBase
                   name="code"
                   label="Nome completo"
+                  value={seller.codigo}
+                />
+
+                <InputBase
+                  name="name"
+                  label="Nome completo"
                   value={seller.nome}
                 />
 
                 <InputBase
-                  name="cnpj"
-                  label="Nome de guerra"
+                  name="nickname"
+                  label="Apelido"
                   value={seller.nomeGuerra}
                 />
 
-                <InputBase name="cnpj" label="E-mail" value={seller.email} />
+                <InputBase name="email" label="E-mail" value={seller.email} />
+
+                <InputBase
+                  name="brands"
+                  label="Marcas"
+                  value={seller?.marcas?.map((item) => item.descricao).join()}
+                />
               </DetailBox>
             </DetailContent>
           </TabsContent>

@@ -2,6 +2,7 @@ import { setupAPIClient } from "@/services/api";
 import { api } from "@/services/apiClient";
 import { useQuery } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
+import { Brand } from "./useBrands";
 
 export type Seller = {
   codigo: number;
@@ -16,6 +17,8 @@ export type Seller = {
   codGerente: number;
   codSupervisor: number;
   tipoVendedor: "DIRETOR" | "SUPERVISOR" | "GERENTE" | "VENDEDOR";
+
+  marcas?: Brand[];
 };
 
 type SellerApiResponse = {
