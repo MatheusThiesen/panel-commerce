@@ -40,9 +40,18 @@ export const DetailHeader = ({ children, className }: DetailHeaderProps) => {
 
 interface DetailTitle {
   children?: ReactNode;
+  className?: ClassNameValue;
 }
-export const DetailTitle = ({ children }: DetailTitle) => {
-  return <h2 className="text-2xl font-bold">{children}</h2>;
+export const DetailTitle = ({ children, className }: DetailTitle) => {
+  return <h2 className={cn("text-2xl font-bold", className)}>{children}</h2>;
+};
+
+interface DetailSubtitle {
+  children?: ReactNode;
+  className?: ClassNameValue;
+}
+export const DetailSubtitle = ({ children, className }: DetailTitle) => {
+  return <h3 className={cn("text-xl", className)}>{children}</h3>;
 };
 
 export const DetailGoBack = () => {
@@ -72,13 +81,17 @@ export const DetailMain = ({ children }: DetailMainProps) => {
 interface DetailContentProps {
   secondaryColumn?: ReactNode;
   children?: ReactNode;
+  className?: ClassNameValue;
 }
 export const DetailContent = ({
   secondaryColumn,
   children,
+  className,
 }: DetailContentProps) => {
   return (
-    <div className="flex w-full justify-between flex-wrap gap-5">
+    <div
+      className={cn("flex w-full justify-between flex-wrap gap-5", className)}
+    >
       {!secondaryColumn ? (
         children
       ) : (
