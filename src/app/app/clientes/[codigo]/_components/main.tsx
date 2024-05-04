@@ -186,6 +186,12 @@ export function ClientMain({ clientCode }: ClientMainProps) {
                   />
                 </GroupInput>
               </DetailBox>
+
+              <DetailBox className="w-full">
+                <DetailBoxTitle>Observação</DetailBoxTitle>
+
+                <TextareaBase name="obs" defaultValue={client.obs} readOnly />
+              </DetailBox>
             </DetailContent>
           </TabsContent>
           <TabsContent value="block" className="p-2">
