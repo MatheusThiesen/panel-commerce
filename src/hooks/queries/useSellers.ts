@@ -21,6 +21,10 @@ export type Seller = {
   marcas?: Brand[];
 };
 
+export type SellerFilters = {
+  eAtivo?: boolean;
+};
+
 type SellerApiResponse = {
   data: Seller[];
   page: number;
@@ -40,6 +44,7 @@ interface GetSellersProps {
   pagesize?: number;
   orderby?: string;
   search?: string;
+  filters?: SellerFilters;
 }
 
 export async function getSellers({
@@ -47,6 +52,7 @@ export async function getSellers({
   pagesize,
   orderby,
   search,
+  filters,
 }: GetSellersProps): Promise<GetSellersResponse> {
   const { data } = await api.get<SellerApiResponse>("/panel/sellers", {
     params: {
@@ -54,6 +60,7 @@ export async function getSellers({
       pagesize,
       orderby,
       search,
+      filters,
     },
   });
 
@@ -86,10 +93,11 @@ export function useSellers({
   page,
   orderby,
   search,
+  filters,
 }: GetSellersProps) {
   return useQuery({
-    queryKey: ["sellers", pagesize, page, orderby, search],
-    queryFn: () => getSellers({ pagesize, page, orderby, search }),
+    queryKey: ["sellers", pagesize, page, orderby, search, filters],
+    queryFn: () => getSellers({ pagesize, page, orderby, search, filters }),
   });
 }
 export function useSellerOne(

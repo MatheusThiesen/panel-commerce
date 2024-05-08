@@ -41,6 +41,10 @@ export type Client = {
     codigo: string;
     descricao: string;
   };
+  carteiraClienteRepresentante?: {
+    id: string;
+    vendedorCodigo: number;
+  }[];
 };
 
 type ClientApiResponse = {

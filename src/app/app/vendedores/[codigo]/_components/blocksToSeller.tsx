@@ -42,7 +42,10 @@ export function BlocksToSeller({ seller }: BlocksToSellerProps) {
       groups: data?.blocks?.grupos.map((item) => String(item.codigo)) ?? [],
     },
   });
-  const { handleSubmit, control } = form;
+  const { handleSubmit, control, watch } = form;
+
+  const watchStocksLocationSelected = watch("stocksLocation");
+  const watchGroupsSelected = watch("groups");
 
   async function updateBlocks(blocks: BlocksSellerFormProps) {
     try {
@@ -109,6 +112,7 @@ export function BlocksToSeller({ seller }: BlocksToSellerProps) {
                       label: item.descricao,
                     })) ?? []
                   }
+                  checks={watchStocksLocationSelected}
                   control={control}
                 />
               </div>
@@ -124,6 +128,7 @@ export function BlocksToSeller({ seller }: BlocksToSellerProps) {
                       label: item.descricao,
                     })) ?? []
                   }
+                  checks={watchGroupsSelected}
                   control={control}
                 />
               </div>

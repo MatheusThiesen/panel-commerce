@@ -24,6 +24,7 @@ import { ScrollArea } from "../ui/scroll-area";
 
 interface CheckboxFormProps {
   data: ComboboxDataProps[];
+  checks?: string[];
   name: string;
 
   label?: string;
@@ -45,7 +46,16 @@ export function CheckboxForm({
   label,
   description,
   control,
+  checks,
 }: CheckboxFormProps) {
+  const normalizedData = checks
+    ? data.sort((a, b) => {
+        const aSelected = checks.includes(String(a.id));
+        const bSelected = checks.includes(String(b.id));
+        return aSelected === bSelected ? 0 : aSelected ? -1 : 1;
+      })
+    : data;
+
   return (
     <FormItem className={cn(className)}>
       <div>
@@ -59,7 +69,7 @@ export function CheckboxForm({
 
         <ScrollArea className="h-64 rounded-md ">
           <CommandGroup>
-            {data.map((item) => (
+            {normalizedData.map((item) => (
               <FormField
                 key={item.id}
                 control={control}

@@ -44,7 +44,11 @@ export function BlocksToClient({ client }: BlocksToClientProps) {
       brands: data?.blocks?.marcas.map((item) => String(item.codigo)) ?? [],
     },
   });
-  const { handleSubmit, control } = form;
+  const { handleSubmit, control, watch } = form;
+
+  const watchStocksLocationSelected = watch("stocksLocation");
+  const watchGroupsSelected = watch("groups");
+  const watchBrandsSelected = watch("brands");
 
   async function updateBlocks(blocks: BlocksClientFormProps) {
     try {
@@ -111,6 +115,7 @@ export function BlocksToClient({ client }: BlocksToClientProps) {
                       label: item.descricao,
                     })) ?? []
                   }
+                  checks={watchStocksLocationSelected}
                   control={control}
                 />
               </div>
@@ -126,6 +131,7 @@ export function BlocksToClient({ client }: BlocksToClientProps) {
                       label: item.descricao,
                     })) ?? []
                   }
+                  checks={watchBrandsSelected}
                   control={control}
                 />
               </div>
@@ -141,6 +147,7 @@ export function BlocksToClient({ client }: BlocksToClientProps) {
                       label: item.descricao,
                     })) ?? []
                   }
+                  checks={watchGroupsSelected}
                   control={control}
                 />
               </div>

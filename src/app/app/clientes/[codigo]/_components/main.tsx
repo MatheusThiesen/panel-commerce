@@ -23,6 +23,7 @@ import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { BlocksToClient } from "./blocksToClient";
+import { SellersToClient } from "./sellersToClient";
 
 interface ClientMainProps {
   clientCode: number;
@@ -52,6 +53,7 @@ export function ClientMain({ clientCode }: ClientMainProps) {
           <TabsList>
             <TabsTrigger value="general">Geral</TabsTrigger>
             <TabsTrigger value="block">Bloqueios</TabsTrigger>
+            <TabsTrigger value="sellers">Vendedores</TabsTrigger>
           </TabsList>
           <TabsContent value="general" className="p-2">
             <DetailContent
@@ -197,6 +199,11 @@ export function ClientMain({ clientCode }: ClientMainProps) {
           <TabsContent value="block" className="p-2">
             <DetailContent>
               <BlocksToClient client={client} />
+            </DetailContent>
+          </TabsContent>
+          <TabsContent value="sellers" className="p-2">
+            <DetailContent>
+              <SellersToClient client={client} />
             </DetailContent>
           </TabsContent>
         </Tabs>
