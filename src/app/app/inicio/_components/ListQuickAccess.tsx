@@ -15,7 +15,7 @@ type QuickAccess = {
 
 export function ListQuickAccess({ data }: ListQuickAccessProps) {
   return (
-    <div className="flex overflow-x-scroll w-full">
+    <div className="flex w-full scrollbar-thin overflow-x-auto">
       <div className="flex gap-x-4">
         {data.map((item) => (
           <Button
