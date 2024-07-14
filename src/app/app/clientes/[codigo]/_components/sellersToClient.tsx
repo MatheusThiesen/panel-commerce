@@ -35,10 +35,7 @@ export function SellersToClient({ client }: SellersToClientProps) {
   const form = useForm<SellersToClientFormProps>({
     resolver: zodResolver(sellersToClientFormSchema),
     values: {
-      sellers:
-        client.carteiraClienteRepresentante?.map((item) =>
-          String(item.vendedorCodigo)
-        ) ?? [],
+      sellers: client.vendedores?.map((item) => String(item.codigo)) ?? [],
     },
   });
   const { handleSubmit, control, watch } = form;

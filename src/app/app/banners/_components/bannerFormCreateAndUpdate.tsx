@@ -125,6 +125,13 @@ export function BannerFormCreateAndUpdate({
   const watchImageDesktop = watch("imageDesktop");
   const watchImageMobile = watch("imageMobile");
 
+  const watchStocksLocationSelected = watch("locaisEstoque");
+  const watchGroupsSelected = watch("grupos");
+  const watchBrandsSelected = watch("marcas");
+  const watchLinesSelected = watch("linhas");
+  const watchCollectionsSelected = watch("colecoes");
+  const watchGenresSelected = watch("generos");
+
   async function createBanner(banner: BannerFormProps) {
     const formDataImageDesktop = new FormData();
     formDataImageDesktop.append("file", banner.imageDesktop);
@@ -342,6 +349,19 @@ export function BannerFormCreateAndUpdate({
                 <Label>{filter.label}</Label>
                 <CheckboxForm
                   name={dataFilters?.[filter.name]}
+                  checks={
+                    filter.name === "locaisEstoque"
+                      ? watchStocksLocationSelected
+                      : filter.name === "colecaoCodigo"
+                      ? watchCollectionsSelected
+                      : filter.name === "linhaCodigo"
+                      ? watchLinesSelected
+                      : filter.name === "grupoCodigo"
+                      ? watchGroupsSelected
+                      : filter.name === "marcaCodigo"
+                      ? watchBrandsSelected
+                      : watchGenresSelected
+                  }
                   data={
                     filter.data?.map((item) => ({
                       id: String(item.value),

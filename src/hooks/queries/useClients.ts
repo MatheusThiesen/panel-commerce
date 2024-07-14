@@ -3,6 +3,7 @@ import { api } from "@/services/apiClient";
 import { useQuery } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
 import { mask } from "remask";
+import { Seller } from "./useSellers";
 
 export type Client = {
   eAtivo: boolean;
@@ -41,10 +42,7 @@ export type Client = {
     codigo: string;
     descricao: string;
   };
-  carteiraClienteRepresentante?: {
-    id: string;
-    vendedorCodigo: number;
-  }[];
+  vendedores?: Seller[];
 };
 
 type ClientApiResponse = {
