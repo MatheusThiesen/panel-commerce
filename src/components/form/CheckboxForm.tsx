@@ -29,6 +29,7 @@ interface CheckboxFormProps {
 
   label?: string;
   description?: string;
+  disabled?: boolean;
 
   control: Control<any>;
   className?: ClassNameValue;
@@ -47,6 +48,7 @@ export function CheckboxForm({
   description,
   control,
   checks,
+  disabled = false,
 }: CheckboxFormProps) {
   const normalizedData = checks
     ? data.sort((a, b) => {
@@ -80,6 +82,7 @@ export function CheckboxForm({
                       <FormItem className="flex flex-row items-start space-x-3 space-y-0 ">
                         <FormControl>
                           <Checkbox
+                            disabled={disabled}
                             checked={field.value?.includes(item.id)}
                             onCheckedChange={(checked) => {
                               return checked

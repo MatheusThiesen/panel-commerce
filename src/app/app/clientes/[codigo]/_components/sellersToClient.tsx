@@ -1,11 +1,16 @@
 "use client";
 
 import { CheckboxForm } from "@/components/form/CheckboxForm";
-import { DetailBox, DetailBoxTitle } from "@/components/layouts/detail";
+import {
+  DetailActionButton,
+  DetailBox,
+  DetailBoxTitle,
+} from "@/components/layouts/detail";
 import { Loading } from "@/components/loading";
 import { Form } from "@/components/ui/form";
 import { Client } from "@/hooks/queries/useClients";
 import { useSellers } from "@/hooks/queries/useSellers";
+import { api } from "@/services/apiClient";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -44,9 +49,9 @@ export function SellersToClient({ client }: SellersToClientProps) {
 
   async function updateClient({ sellers }: SellersToClientFormProps) {
     try {
-      // await api.put(`/panel/clients/${client.codigo}`, {
-      //   vendedores: sellers,
-      // });
+      await api.put(`/panel/clients/${client.codigo}`, {
+        vendedores: sellers,
+      });
 
       queryClient.invalidateQueries({
         queryKey: ["client-blocks"],
@@ -108,13 +113,13 @@ export function SellersToClient({ client }: SellersToClientProps) {
               </div>
             </div>
 
-            {/* <DetailActionButton
+            <DetailActionButton
               type="submit"
               size="lg"
               className="mr-auto ml-0 mt-4 text-md font-bold"
             >
               SALVAR
-            </DetailActionButton> */}
+            </DetailActionButton>
           </form>
         </Form>
       )}

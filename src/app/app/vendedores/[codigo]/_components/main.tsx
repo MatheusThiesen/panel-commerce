@@ -20,6 +20,7 @@ import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { BlocksToSeller } from "./blocksToSeller";
+import { ClientsToSeller } from "./clientsToSeller";
 
 interface SellerMainProps {
   sellerCode: number;
@@ -49,6 +50,7 @@ export function SellerMain({ sellerCode }: SellerMainProps) {
           <TabsList>
             <TabsTrigger value="general">Geral</TabsTrigger>
             <TabsTrigger value="block">Bloqueios</TabsTrigger>
+            <TabsTrigger value="clients">Clientes</TabsTrigger>
           </TabsList>
           <TabsContent value="general" className="p-2">
             <DetailContent
@@ -129,6 +131,11 @@ export function SellerMain({ sellerCode }: SellerMainProps) {
           <TabsContent value="block" className="p-2">
             <DetailContent>
               <BlocksToSeller seller={seller} />
+            </DetailContent>
+          </TabsContent>
+          <TabsContent value="clients" className="p-2">
+            <DetailContent>
+              <ClientsToSeller seller={seller} />
             </DetailContent>
           </TabsContent>
         </Tabs>
