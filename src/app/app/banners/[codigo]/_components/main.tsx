@@ -27,7 +27,7 @@ export function BannerMain({ bannerId }: BannerMainProps) {
     if (isError) {
       push("/app/inicio");
     }
-  }, [isError]);
+  }, [isError, push]);
 
   if (isLoading || !banner) return <ScreenLoading />;
 

@@ -34,7 +34,7 @@ export function SellerMain({ sellerCode }: SellerMainProps) {
     if (isError) {
       push("/app/inicio");
     }
-  }, [isError]);
+  }, [isError, push]);
 
   if (isLoading || !seller) return <ScreenLoading />;
 

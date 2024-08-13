@@ -37,7 +37,7 @@ export function ClientMain({ clientCode }: ClientMainProps) {
     if (isError) {
       push("/app/inicio");
     }
-  }, [isError]);
+  }, [isError, push]);
 
   if (isLoading || !client) return <ScreenLoading />;
 

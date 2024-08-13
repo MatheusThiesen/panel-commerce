@@ -38,7 +38,7 @@ export function OrderMain({ orderCode }: OrderMainProps) {
     if (isError) {
       push("/app/inicio");
     }
-  }, [isError]);
+  }, [isError, push]);
 
   if (isLoading || !order) return <ScreenLoading />;
 

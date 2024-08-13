@@ -41,7 +41,7 @@ export function BrandMain({ brandCode }: BrandMainProps) {
     if (isError) {
       push("/app/inicio");
     }
-  }, [isError]);
+  }, [isError, push]);
 
   if (isLoading || !brand) return <ScreenLoading />;
 

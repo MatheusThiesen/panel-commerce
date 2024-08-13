@@ -94,7 +94,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           signOut();
         });
     }
-  }, []);
+  }, [token]);
 
   return (
     <AuthContext.Provider value={{ signOut, user, isAuthenticated }}>

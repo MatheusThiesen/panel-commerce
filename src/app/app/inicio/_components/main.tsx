@@ -39,8 +39,10 @@ import {
   Users,
 } from "lucide-react";
 import { useState } from "react";
-import Chart from "react-apexcharts";
 import { ListQuickAccess } from "./ListQuickAccess";
+
+import dynamic from "next/dynamic";
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export function HomeMain() {
   const [periodOrderAnalytic, setPeriodOrderAnalytic] =

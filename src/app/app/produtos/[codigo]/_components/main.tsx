@@ -45,7 +45,7 @@ export function ProductMain({ productCode }: ProductMainProps) {
     if (isError) {
       push("/app/inicio");
     }
-  }, [isError]);
+  }, [isError, push]);
 
   if (isLoading || !product) return <ScreenLoading />;
 
