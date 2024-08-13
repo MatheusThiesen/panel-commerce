@@ -123,6 +123,39 @@ type GetOrdersResponse = {
   total: number;
 };
 
+export type OrderAnalyticPeriod =
+  | "7-days"
+  | "14-days"
+  | "1-month"
+  | "3-month"
+  | "1-year";
+
+interface OrderAnalyticNormalizedProps {
+  qtd: number;
+  totalFormat: string;
+  averageTicketFomat: string;
+  orderAnalytic: OrderAnalyticPeriodProps[];
+  series: { data: number[]; name: string }[];
+}
+
+interface OrderAnalyticProps {
+  analisePeriodo: OrderAnalyticPeriodProps[];
+  quantidadeTotal: number;
+  valorTotal: number;
+  ticketMedio: number;
+}
+
+interface OrderAnalyticPeriodProps {
+  periodo: Date;
+  itens: OrderAnalyticItemProps[];
+}
+
+type OrderAnalyticItemProps = {
+  valorTotal: number;
+  quantidade: number;
+  situacao: string;
+};
+
 interface GetOrdersProps {
   page: number;
   pagesize?: number;
@@ -256,6 +289,79 @@ export async function getOrderOne(
   };
 }
 
+function normalizedSeries({
+  analisePeriodo: data,
+}: OrderAnalyticProps): { data: number[]; name: string }[] {
+  const normalized: {
+    data: { period: Date; value: number }[];
+    name: string;
+  }[] = [];
+
+  const periods: Date[] = data.map((f) => f.periodo);
+
+  for (const row of data) {
+    for (const item of row.itens) {
+      const find = normalized.find((f) => f.name === item.situacao);
+
+      if (find) {
+        find.data = find.data.map((data) =>
+          data.period === row.periodo
+            ? { value: item.valorTotal, period: data.period }
+            : data
+        );
+      } else {
+        normalized.push({
+          name: item.situacao,
+          data: periods.map((period) =>
+            period === row.periodo
+              ? { value: item.valorTotal, period: period }
+              : { value: 0, period: period }
+          ),
+        });
+      }
+    }
+  }
+
+  return normalized.map((f) => ({
+    name: f.name,
+    data: f.data.map((item) => item.value),
+  }));
+}
+
+export async function getOrderAnalytic(
+  period?: OrderAnalyticPeriod,
+  ctx: GetServerSidePropsContext | undefined = undefined
+): Promise<OrderAnalyticNormalizedProps> {
+  var apiOrder = api;
+
+  if (ctx) {
+    apiOrder = setupAPIClient(ctx);
+  }
+
+  const { data } = await apiOrder.get<OrderAnalyticProps>(
+    `/panel/orders/analytic`,
+    {
+      params: {
+        periodo: period,
+      },
+    }
+  );
+
+  return {
+    qtd: data.quantidadeTotal,
+    totalFormat: data.valorTotal.toLocaleString("pt-br", {
+      style: "currency",
+      currency: "BRL",
+    }),
+    averageTicketFomat: data.ticketMedio.toLocaleString("pt-br", {
+      style: "currency",
+      currency: "BRL",
+    }),
+    orderAnalytic: data.analisePeriodo,
+    series: normalizedSeries(data),
+  };
+}
+
 export function useOrders({ pagesize, page, orderby, search }: GetOrdersProps) {
   return useQuery({
     queryKey: ["orders", pagesize, page, orderby, search],
@@ -269,5 +375,14 @@ export function useOrderOne(
   return useQuery({
     queryKey: ["order", codigo],
     queryFn: () => getOrderOne(codigo, ctx),
+  });
+}
+export function useOrderAnalytic(
+  period?: OrderAnalyticPeriod,
+  ctx: GetServerSidePropsContext | undefined = undefined
+) {
+  return useQuery({
+    queryKey: ["order-analytic", period],
+    queryFn: () => getOrderAnalytic(period, ctx),
   });
 }

@@ -20,13 +20,13 @@ export function UserNav() {
           <Avatar className="size-10 ">
             <AvatarImage src="/avatars/01.png" alt="@shadcn" />
             <AvatarFallback className="capitalize">
-              {user?.name[0]}
+              {user?.nome?.[0]}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col space-y-1 text-start ml-3">
             <p className="text-sm font-medium leading-none capitalize">
               {" "}
-              {user?.name}
+              {user?.nome}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
               {user?.email}

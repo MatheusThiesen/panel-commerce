@@ -1,8 +1,11 @@
 "use client";
 
 import { Me } from "@/@types/me";
+import { BASE_URL } from "@/services/api";
 import { api } from "@/services/apiClient";
-import nookies, { parseCookies } from "nookies";
+import axios from "axios";
+import { GetServerSidePropsContext } from "next";
+import nookies, { parseCookies, setCookie } from "nookies";
 import {
   ReactNode,
   createContext,
@@ -35,11 +38,49 @@ export function signOut() {
 
   window.location.reload();
 }
+export async function refreshToken(
+  ctx: GetServerSidePropsContext | undefined = undefined
+): Promise<string | undefined> {
+  const { "auth.session-refresh": tokenRefresh } = parseCookies(ctx);
+
+  try {
+    const refreshTokenResponse = await axios.post<{
+      refresh_token: string;
+      access_token: string;
+    }>(`${BASE_URL}auth/refresh`, {
+      token: tokenRefresh,
+    });
+
+    setCookie(
+      ctx,
+      "auth.session-token",
+      refreshTokenResponse.data.access_token,
+      {
+        maxAge: 60 * 60 * 24 * 30, //30 Days
+        path: "/",
+      }
+    );
+    setCookie(
+      ctx,
+      "auth.session-refresh",
+      refreshTokenResponse.data.refresh_token,
+      {
+        maxAge: 60 * 60 * 24 * 30, //30 Days
+        path: "/",
+      }
+    );
+
+    return refreshTokenResponse.data.access_token;
+  } catch (error) {
+    console.log(error);
+    signOut();
+  }
+}
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const { "auth.session-token": token } = parseCookies();
 
-  const [user, setUser] = useState<Me>();
+  const [user, setUser] = useState<Me>({} as Me);
   const isAuthenticated = !!user && !!token;
 
   useEffect(() => {
