@@ -25,6 +25,7 @@ import {
 } from "@/hooks/queries/useAccess";
 import {
   OrderAnalyticPeriod,
+  orderStatusColorAnalytic,
   useOrderAnalytic,
 } from "@/hooks/queries/useOrders";
 import { useAuth } from "@/hooks/useAuth";
@@ -174,7 +175,12 @@ export function HomeMain() {
                   grid: {
                     show: false,
                   },
-                  // colors: colors,
+                  colors: orderAnalytic.data?.series.map((serie) => {
+                    const find = orderStatusColorAnalytic.find(
+                      (f) => f.name === serie.name
+                    );
+                    return find?.color ?? "";
+                  }),
 
                   fill: {
                     opacity: 0.3,

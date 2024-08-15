@@ -19,6 +19,32 @@ export const orderStatusStyle = {
   7: { textColor: "text-orange-600", bgColor: "bg-orange-500" },
   8: { textColor: "text-red-600", bgColor: "bg-red-600" },
 };
+export const orderStatusColorAnalytic = [
+  {
+    name: "Recebido",
+    color: "rgb(0, 143, 250)",
+  },
+  {
+    name: "Faturado",
+    color: "rgb(0, 227, 150)",
+  },
+  {
+    name: "Falha na transmissão",
+    color: "rgb(119, 92, 207)",
+  },
+  {
+    name: "Cancelado",
+    color: "rgb(255, 69, 96)",
+  },
+  {
+    name: "Rascunho",
+    color: "rgb(254, 175, 26)",
+  },
+  {
+    name: "Reprovado",
+    color: "rgb(255, 69, 96)",
+  },
+];
 
 export type Order = {
   codigo: number;
