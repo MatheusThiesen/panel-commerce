@@ -33,7 +33,15 @@ export const orderStatusColorAnalytic = [
     color: "rgb(119, 92, 207)",
   },
   {
+    name: "Diferenciado",
+    color: "rgb(119, 92, 207)",
+  },
+  {
     name: "Cancelado",
+    color: "rgb(255, 69, 96)",
+  },
+  {
+    name: "Reprovado",
     color: "rgb(255, 69, 96)",
   },
   {
@@ -41,8 +49,8 @@ export const orderStatusColorAnalytic = [
     color: "rgb(254, 175, 26)",
   },
   {
-    name: "Reprovado",
-    color: "rgb(255, 69, 96)",
+    name: "Não transmitido",
+    color: "rgb(254, 175, 26)",
   },
 ];
 
