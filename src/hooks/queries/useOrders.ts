@@ -38,6 +38,10 @@ export const orderStatusColorAnalytic = [
     color: "rgb(119, 92, 207)",
   },
   {
+    name: "Recusado",
+    color: "rgb(119, 92, 207)",
+  },
+  {
     name: "Cancelado",
     color: "rgb(255, 69, 96)",
   },
