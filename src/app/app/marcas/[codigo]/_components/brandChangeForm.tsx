@@ -8,7 +8,6 @@ import { Brand } from "@/hooks/queries/useBrands";
 import { api } from "@/services/apiClient";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -29,7 +28,6 @@ type BrandFormProps = z.infer<typeof brandFormSchema>;
 
 export function BrandChangeForm({ brand }: BrandChangeFormProps) {
   const queryClient = useQueryClient();
-  const router = useRouter();
 
   const form = useForm<BrandFormProps>({
     resolver: zodResolver(brandFormSchema),

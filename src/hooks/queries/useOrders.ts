@@ -18,6 +18,7 @@ export const orderStatusStyle = {
   6: { textColor: "text-purple-600", bgColor: "bg-purple-600" },
   7: { textColor: "text-orange-600", bgColor: "bg-orange-500" },
   8: { textColor: "text-red-600", bgColor: "bg-red-600" },
+  9: { textColor: "text-purple-500", bgColor: "bg-purple-500" },
 };
 export const orderStatusColorAnalytic = [
   {
@@ -68,6 +69,8 @@ export type Order = {
   tipoDesconto?: "VALOR" | "PERCENTUAL";
   descontoCalculado?: number;
   descontoValorFormat: string;
+  cancelamentoValor?: number;
+  cancelamentoValorFormat?: string;
   descontoCalculadoFormat?: string;
   descontoPercentual?: number;
   descontoValor?: number;
@@ -98,6 +101,11 @@ export type Order = {
     codigo: number;
     descricao: string;
   };
+  pedidoErp?: {
+    dataFaturamento: Date;
+    valorTotal: number;
+    valorTotalFormat?: string;
+  };
   itens: ItemOrder[];
   registros: RegisterOrder[];
 };
@@ -110,6 +118,22 @@ export type ItemOrder = {
   valorTotalFormat: string;
   sequencia: number;
   produto: Product;
+
+  itemErp?: {
+    quantidade: number;
+    valorUnitario: number;
+    valorTotalFormat: string;
+    situacao: string;
+
+    motivoRecusa?: {
+      codigo: number;
+      descricao: string;
+    };
+    motivoCancelamento?: {
+      codigo: number;
+      descricao: string;
+    };
+  };
 };
 
 export type Differentiated = {
@@ -242,24 +266,50 @@ export async function getOrderOne(
 
   const { data: order } = await apiOrder.get<Order>(`/panel/orders/${cod}`);
 
+  const cancelamentoValor = order.itens.reduce(
+    (previousValue, currentValue) =>
+      currentValue?.itemErp?.situacao === "Cancelado"
+        ? currentValue?.itemErp?.valorUnitario *
+            currentValue?.itemErp?.quantidade +
+          previousValue
+        : previousValue,
+    0
+  );
+
+  const descontoCalculado =
+    order.valorTotal - (order.descontoCalculado ?? 0) - cancelamentoValor;
+
   return {
     ...order,
 
-    descontoValorFormat: Number(order.descontoCalculado ?? 0).toLocaleString(
+    pedidoErp: order.pedidoErp
+      ? {
+          ...order.pedidoErp,
+          valorTotalFormat: order.pedidoErp?.valorTotal?.toLocaleString(
+            "pt-br",
+            {
+              style: "currency",
+              currency: "BRL",
+            }
+          ),
+        }
+      : undefined,
+
+    descontoCalculado: descontoCalculado,
+    descontoCalculadoFormat: descontoCalculado.toLocaleString("pt-br", {
+      style: "currency",
+      currency: "BRL",
+    }),
+    descontoValor: order.descontoCalculado ?? 0,
+    descontoValorFormat: Number(order?.descontoCalculado ?? 0).toLocaleString(
       "pt-br",
       {
         style: "currency",
         currency: "BRL",
       }
     ),
-    valorTotalFormat: order.valorTotal.toLocaleString("pt-br", {
-      style: "currency",
-      currency: "BRL",
-    }),
-    descontoCalculado: order.valorTotal - (order.descontoCalculado ?? 0),
-    descontoCalculadoFormat: (
-      order.valorTotal - (order.descontoCalculado ?? 0)
-    ).toLocaleString("pt-br", {
+    cancelamentoValor: cancelamentoValor,
+    cancelamentoValorFormat: Number(cancelamentoValor).toLocaleString("pt-br", {
       style: "currency",
       currency: "BRL",
     }),

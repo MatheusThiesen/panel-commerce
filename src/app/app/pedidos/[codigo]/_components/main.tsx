@@ -16,7 +16,6 @@ import {
 import { ScreenLoading } from "@/components/loading-screen";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { orderStatusStyle, useOrderOne } from "@/hooks/queries/useOrders";
 import { cn } from "@/lib/utils";
@@ -68,27 +67,29 @@ export function OrderMain({ orderCode }: OrderMainProps) {
             <DetailContent
               secondaryColumn={
                 <>
-                  <DetailBox className="flex-row">
-                    <DetailBoxTitle>Situação</DetailBoxTitle>
+                  <DetailBox className="hidden lg:flex">
+                    <div className="flex flex-row justify-between items-center w-full">
+                      <DetailBoxTitle>Situação</DetailBoxTitle>
 
-                    <Badge
-                      variant="outline"
-                      className={cn(
-                        orderStatusStyle[
-                          (order.situacaoPedido.codigo ?? 1) as 1
-                        ].bgColor,
-                        "text-white rounded-sm hover:bg text-md"
-                      )}
-                    >
-                      {order.situacaoPedido.descricao}
-                    </Badge>
-                  </DetailBox>
-
-                  <DetailBox className="flex-row">
-                    <div className="flex justify-between items-center">
-                      <Switch checked={!!order.eDiferenciado} />
-                      <span className="ml-2">Diferenciado</span>
+                      <Badge
+                        variant="outline"
+                        className={cn(
+                          orderStatusStyle[
+                            (order.situacaoPedido?.codigo ?? 1) as 1
+                          ].bgColor,
+                          "text-white rounded-lg hover:bg text-md "
+                        )}
+                      >
+                        {order.situacaoPedido?.descricao}
+                      </Badge>
                     </div>
+
+                    {order.codigoErp > 0 && (
+                      <div className="text-sm w-full">
+                        <span className="font-thin">CÓDIGO ERP:</span>
+                        <span className="font-bold">{order.codigoErp}</span>
+                      </div>
+                    )}
                   </DetailBox>
 
                   <DetailBox className="w-full">
@@ -148,42 +149,42 @@ export function OrderMain({ orderCode }: OrderMainProps) {
                 </>
               }
             >
-              <DetailBox className="w-full">
-                <DetailBoxTitle>Resumo</DetailBoxTitle>
+              <DetailBox className="flex lg:hidden">
+                <div className="flex flex-row justify-between items-center w-full">
+                  <DetailBoxTitle>Situação</DetailBoxTitle>
 
-                {order.itens.map((item, index) => (
-                  <div key={item.codigo}>
-                    {index > 0 && <Separator />}
+                  <Badge
+                    variant="outline"
+                    className={cn(
+                      orderStatusStyle[(order.situacaoPedido?.codigo ?? 1) as 1]
+                        .bgColor,
+                      "text-white rounded-lg hover:bg text-md "
+                    )}
+                  >
+                    {order.situacaoPedido?.descricao}
+                  </Badge>
+                </div>
 
-                    <ProductItem data={item} />
+                {order.codigoErp > 0 && (
+                  <div className="text-sm w-full">
+                    <span className="font-thin">CÓDIGO ERP:</span>
+                    <span className="font-bold">{order.codigoErp}</span>
                   </div>
-                ))}
-
-                <div className="flex justify-between mt-4 text-sm">
-                  <span>Subtotal</span>
-                  <span>{order.valorTotalFormat}</span>
-                </div>
-                <Separator />
-                <div className="flex justify-between  text-sm text-red-400">
-                  <span>Descontos</span>
-                  <span>-{order.descontoValorFormat}</span>
-                </div>
-                <Separator />
-
-                <div className="flex justify-between text-md text-green-400">
-                  <span>Total</span>
-                  <span>{order.descontoCalculadoFormat}</span>
-                </div>
+                )}
               </DetailBox>
+
               <DetailBox className="w-full">
                 <DetailBoxTitle>Detalhes</DetailBoxTitle>
 
-                <InputBase
-                  name="codeErp"
-                  label="Código ERP"
-                  defaultValue={order.codigoErp ?? "-"}
-                  readOnly
-                />
+                {order.codigoErp > 0 && (
+                  <InputBase
+                    name="codeErp"
+                    label="Código ERP"
+                    defaultValue={order.codigoErp ?? "-"}
+                    readOnly
+                  />
+                )}
+
                 <InputBase
                   name="priceList"
                   label="Lista de preço"
@@ -219,6 +220,51 @@ export function OrderMain({ orderCode }: OrderMainProps) {
                     readOnly
                   />
                 </GroupInput>
+              </DetailBox>
+
+              <DetailBox className="w-full">
+                <DetailBoxTitle>Resumo</DetailBoxTitle>
+
+                {order.itens.map((item) => (
+                  <div key={item.codigo}>
+                    <ProductItem
+                      data={item}
+                      status={order.situacaoPedido?.descricao}
+                    />
+
+                    {<Separator />}
+                  </div>
+                ))}
+
+                <div className="flex justify-between  text-sm">
+                  <span>Subtotal</span>
+                  <span>{order.valorTotalFormat}</span>
+                </div>
+                <Separator />
+                <div className="flex justify-between text-sm ">
+                  <span>Descontos</span>
+                  <span className="text-green-500">
+                    -{order.descontoValorFormat}
+                  </span>
+                </div>
+
+                {Number(order.cancelamentoValor ?? 0) > 0 && (
+                  <>
+                    <Separator />
+                    <div className="flex justify-between text-sm ">
+                      <span>Cancelamentos</span>
+                      <span className="text-red-400">
+                        -{order.cancelamentoValorFormat}
+                      </span>
+                    </div>
+                  </>
+                )}
+
+                <Separator />
+                <div className="flex justify-between text-md font-bold">
+                  <span>Valor total</span>
+                  <span>{order.descontoCalculadoFormat}</span>
+                </div>
               </DetailBox>
             </DetailContent>
           </TabsContent>

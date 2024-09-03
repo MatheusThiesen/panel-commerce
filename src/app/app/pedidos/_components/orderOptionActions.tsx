@@ -3,6 +3,7 @@
 import { DetailOptionsActions } from "@/components/layouts/detail";
 import { Order } from "@/hooks/queries/useOrders";
 import { api } from "@/services/apiClient";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 type OrderOptionActionsProps = {
@@ -10,12 +11,21 @@ type OrderOptionActionsProps = {
 };
 
 export function OrderOptionActions({ order }: OrderOptionActionsProps) {
+  const queryClient = useQueryClient();
+
   async function handleResendOrder() {
     try {
       await api.post(`/panel/orders/resend/${order.codigo}`);
       toast.info("Reenviando pedido...", {
         description:
           "Estamos reenviar o pedido. Por favor, aguarde este processo pode demorar um pouco.",
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["orders"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["order", order.codigo],
       });
     } catch (error) {
       toast.error("Erro interno", {

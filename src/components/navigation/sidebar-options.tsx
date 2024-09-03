@@ -1,4 +1,5 @@
 import {
+  Boxes,
   CircleUser,
   Diamond,
   FolderLock,
@@ -33,6 +34,11 @@ export const sidebarOptions: SidebarOptionProps[] = [
     title: "Marcas",
     icon: Diamond,
     href: "/app/marcas",
+  },
+  {
+    title: "Grupo",
+    icon: Boxes,
+    href: "/app/grupos",
   },
   {
     title: "Banner",
