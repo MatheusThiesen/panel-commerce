@@ -143,6 +143,12 @@ interface GetProductsProps {
   pagesize?: number;
   orderby?: string;
   search?: string;
+  filters?: ProductFiltersProps;
+}
+
+interface ProductFiltersProps {
+  isImage?: string;
+  isSale?: string;
 }
 
 export async function getProducts({
@@ -150,6 +156,7 @@ export async function getProducts({
   pagesize,
   orderby,
   search,
+  filters,
 }: GetProductsProps): Promise<GetProductsResponse> {
   const { data } = await api.get<ProductApiResponse>("/panel/products", {
     params: {
@@ -157,6 +164,7 @@ export async function getProducts({
       pagesize,
       orderby,
       search,
+      ...filters,
     },
   });
 
@@ -262,10 +270,11 @@ export function useProducts({
   page,
   orderby,
   search,
+  filters,
 }: GetProductsProps) {
   return useQuery({
-    queryKey: ["products", pagesize, page, orderby, search],
-    queryFn: () => getProducts({ pagesize, page, orderby, search }),
+    queryKey: ["products", pagesize, page, orderby, search, filters],
+    queryFn: () => getProducts({ pagesize, page, orderby, search, filters }),
   });
 }
 export function useProductOne(

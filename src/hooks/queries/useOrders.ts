@@ -223,6 +223,12 @@ interface GetOrdersProps {
   pagesize?: number;
   orderby?: string;
   search?: string;
+  filters?: OrderFiltersProps;
+}
+
+interface OrderFiltersProps {
+  status?: string[];
+  isDifferentiated?: string;
 }
 
 export async function getOrders({
@@ -230,6 +236,7 @@ export async function getOrders({
   pagesize,
   orderby,
   search,
+  filters,
 }: GetOrdersProps): Promise<GetOrdersResponse> {
   const { data } = await api.get<OrderApiResponse>("/panel/orders", {
     params: {
@@ -237,6 +244,7 @@ export async function getOrders({
       pagesize,
       orderby,
       search,
+      ...filters,
     },
   });
 
@@ -450,10 +458,16 @@ export async function getOrderAnalytic(
   };
 }
 
-export function useOrders({ pagesize, page, orderby, search }: GetOrdersProps) {
+export function useOrders({
+  pagesize,
+  page,
+  orderby,
+  search,
+  filters,
+}: GetOrdersProps) {
   return useQuery({
-    queryKey: ["orders", pagesize, page, orderby, search],
-    queryFn: () => getOrders({ pagesize, page, orderby, search }),
+    queryKey: ["orders", pagesize, page, orderby, search, filters],
+    queryFn: () => getOrders({ pagesize, page, orderby, search, filters }),
   });
 }
 export function useOrderOne(

@@ -41,6 +41,7 @@ interface DataTableProps<TData, TValue> {
   disableSearch?: boolean;
 
   orderby?: DataTableOrderbyProps;
+  formFilter?: React.ReactNode;
 }
 
 export function DataTable<TData, TValue>({
@@ -54,6 +55,7 @@ export function DataTable<TData, TValue>({
   orderby,
   isLoading,
   disableSearch = false,
+  formFilter,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -81,6 +83,7 @@ export function DataTable<TData, TValue>({
           orderby={orderby}
           onReload={onReload}
           disableSearch={disableSearch}
+          formFilter={formFilter}
         />
       </Suspense>
       <div className="rounded-md border relative">

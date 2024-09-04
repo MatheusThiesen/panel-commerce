@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { DataTable } from "../../../../components/table/data-table";
 import { columns } from "./columns";
+import { OrderFilterForm } from "./orderFilterForm";
 
 export function TableListOrder() {
   const router = useRouter();
@@ -13,6 +14,9 @@ export function TableListOrder() {
 
   const orderby = searchParams.get("orderby");
   const search = searchParams.get("search");
+
+  const status = searchParams.get("status");
+  const isDifferentiated = searchParams.get("isDifferentiated");
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -23,6 +27,10 @@ export function TableListOrder() {
     pagesize: pagination.pageSize,
     orderby: orderby ?? "codigo.desc",
     search: search ?? "",
+    filters: {
+      status: status?.split("|"),
+      isDifferentiated: !!isDifferentiated ? isDifferentiated : undefined,
+    },
   });
 
   return (
@@ -57,6 +65,7 @@ export function TableListOrder() {
         ],
       }}
       isLoading={isLoading || isFetching}
+      formFilter={<OrderFilterForm />}
     />
   );
 }

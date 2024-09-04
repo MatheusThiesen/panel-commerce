@@ -5,21 +5,30 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@uidotdev/usehooks";
-import { RotateCw } from "lucide-react";
+import { ListFilter, RotateCw } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
 import { DataTableOrderby, DataTableOrderbyProps } from "./data-tablet-orderby";
 
 interface DataTableToolbarProps<TData> {
   orderby?: DataTableOrderbyProps;
   onReload?: () => void;
   disableSearch?: boolean;
+  formFilter?: ReactNode;
 }
 
 export function DataTableToolbar<TData>({
   orderby,
   onReload,
   disableSearch = false,
+  formFilter,
 }: DataTableToolbarProps<TData>) {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -95,10 +104,23 @@ export function DataTableToolbar<TData>({
           />
         )}
 
-        {/* <Button variant="outline" size="sm" className="h-8">
-          <ListFilter className="size-4 mr-2" />
-          Filtros
-        </Button> */}
+        {!!formFilter && (
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="sm" className="h-8">
+                <ListFilter className="size-4 mr-2" />
+                Filtros
+              </Button>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Filtros</SheetTitle>
+              </SheetHeader>
+
+              {formFilter}
+            </SheetContent>
+          </Sheet>
+        )}
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { DataTable } from "../../../../components/table/data-table";
 import { columns } from "./columns";
+import { ProductFilterForm } from "./productFilterForm";
 
 export function TableListProduct() {
   const router = useRouter();
@@ -13,6 +14,8 @@ export function TableListProduct() {
 
   const orderby = searchParams.get("orderby");
   const search = searchParams.get("search");
+  const isImage = searchParams.get("isImage");
+  const isSale = searchParams.get("isSale");
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -23,6 +26,10 @@ export function TableListProduct() {
     pagesize: pagination.pageSize,
     orderby: orderby ?? "codigo.desc",
     search: search ?? "",
+    filters: {
+      isImage: isImage ?? "",
+      isSale: isSale ?? "",
+    },
   });
 
   return (
@@ -55,6 +62,7 @@ export function TableListProduct() {
         ],
       }}
       isLoading={isLoading || isFetching}
+      formFilter={<ProductFilterForm />}
     />
   );
 }
