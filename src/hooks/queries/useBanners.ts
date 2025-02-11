@@ -58,7 +58,7 @@ interface GetBannersProps {
 }
 
 export type FileProps = {
-  id: number;
+  id: string;
   nome: string;
   tamanho: number;
   url: string;

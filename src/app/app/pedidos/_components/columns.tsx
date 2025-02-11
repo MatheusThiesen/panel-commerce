@@ -54,7 +54,7 @@ export const columns: ColumnDef<Order>[] = [
         <Badge
           variant="outline"
           className={cn(
-            orderStatusStyle[(row.original.statusCode ?? 1) as 1].bgColor,
+            orderStatusStyle?.[(row.original.statusCode ?? 1) as 1]?.bgColor,
             "text-white rounded-sm hover:bg"
           )}
         >
@@ -78,7 +78,7 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => (
       <div
         className={cn(
-          orderStatusStyle[(row.original.statusCode ?? 1) as 1].textColor,
+          orderStatusStyle?.[(row.original.statusCode ?? 1) as 1]?.textColor,
           "font-normal"
         )}
       >

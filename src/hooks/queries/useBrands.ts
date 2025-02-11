@@ -2,6 +2,7 @@ import { setupAPIClient } from "@/services/api";
 import { api } from "@/services/apiClient";
 import { useQuery } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
+import { FileProps } from "./useBanners";
 
 export type Brand = {
   codigo: number;
@@ -10,6 +11,7 @@ export type Brand = {
   valorPedidoMinimoFormat: string;
   eAtivo: boolean;
   eVenda: boolean;
+  logo?: FileProps;
 };
 
 type BrandApiResponse = {

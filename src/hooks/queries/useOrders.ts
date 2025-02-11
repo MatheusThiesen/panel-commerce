@@ -19,6 +19,7 @@ export const orderStatusStyle = {
   7: { textColor: "text-orange-600", bgColor: "bg-orange-500" },
   8: { textColor: "text-red-600", bgColor: "bg-red-600" },
   9: { textColor: "text-purple-500", bgColor: "bg-purple-500" },
+  10: { textColor: "text-purple-500", bgColor: "bg-purple-500" },
 };
 export const orderStatusColorAnalytic = [
   {
@@ -35,6 +36,10 @@ export const orderStatusColorAnalytic = [
   },
   {
     name: "Diferenciado",
+    color: "rgb(119, 92, 207)",
+  },
+  {
+    name: "Análise representante",
     color: "rgb(119, 92, 207)",
   },
   {
