@@ -56,7 +56,7 @@ export const orderStatusColorAnalytic = [
     color: "rgb(119, 92, 207)",
   },
   {
-    name: "Recusado represetante",
+    name: "Cancelado representante",
     color: "rgb(255, 69, 96)",
   },
   {
