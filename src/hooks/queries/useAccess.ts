@@ -11,8 +11,44 @@ export type AccessAnalyticPeriod =
   | "1-year";
 
 interface AccessAnalyticNormalizedProps {
-  accessAnalytic: AccessAnalyticProps[];
-  series: { data: number[]; name: string }[];
+  accessAnalytic: {
+    accessAnalytic: AccessAnalyticProps[];
+    series: { data: number[]; name: string }[];
+  };
+
+  rankingAccessSeller: {
+    vendedorCodigo: number;
+    email: string;
+    nomeGuerra: string;
+    nome: string;
+    total: number;
+  }[];
+
+  rankingAccessClient: {
+    clienteCodigo: number;
+    email: string;
+    cnpj: string;
+    razaoSocial: string;
+    total: number;
+  }[];
+}
+
+interface GetAccessAnalyticProps {
+  analiseAcessos: { periodo: Date; itens: AccessAnalyticItemProps[] }[];
+  rankingAcessosVendedor: {
+    vendedorCodigo: number;
+    email: string;
+    nomeGuerra: string;
+    nome: string;
+    total: number;
+  }[];
+  rankingAcessosClient: {
+    clienteCodigo: number;
+    email: string;
+    cnpj: string;
+    razaoSocial: string;
+    total: number;
+  }[];
 }
 
 interface AccessAnalyticProps {
@@ -74,7 +110,7 @@ export async function getAccessAnalytic(
     apiAccess = setupAPIClient(ctx);
   }
 
-  const { data } = await apiAccess.get<AccessAnalyticProps[]>(
+  const { data } = await apiAccess.get<GetAccessAnalyticProps>(
     `/auth/analytic`,
     {
       params: {
@@ -84,8 +120,12 @@ export async function getAccessAnalytic(
   );
 
   return {
-    accessAnalytic: data,
-    series: normalizedSeries(data),
+    rankingAccessSeller: data.rankingAcessosVendedor,
+    rankingAccessClient: data.rankingAcessosClient,
+    accessAnalytic: {
+      accessAnalytic: data.analiseAcessos,
+      series: normalizedSeries(data.analiseAcessos),
+    },
   };
 }
 export function useAccessAnalytic(

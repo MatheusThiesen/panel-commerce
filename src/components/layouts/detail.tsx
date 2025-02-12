@@ -54,6 +54,16 @@ export const DetailSubtitle = ({ children, className }: DetailTitle) => {
   return <h3 className={cn("text-xl", className)}>{children}</h3>;
 };
 
+interface DetailInfoProps {
+  children?: ReactNode;
+  className?: ClassNameValue;
+}
+export const DetailInfo = ({ children, className }: DetailInfoProps) => {
+  return (
+    <span className={cn("text-xs font-light", className)}>{children}</span>
+  );
+};
+
 export const DetailGoBack = () => {
   const router = useRouter();
 
@@ -82,11 +92,14 @@ interface DetailContentProps {
   secondaryColumn?: ReactNode;
   children?: ReactNode;
   className?: ClassNameValue;
+
+  classNameMain?: ClassNameValue;
 }
 export const DetailContent = ({
   secondaryColumn,
   children,
   className,
+  classNameMain,
 }: DetailContentProps) => {
   return (
     <div
@@ -96,7 +109,12 @@ export const DetailContent = ({
         children
       ) : (
         <>
-          <div className="w-full max-w-full lg:max-w-[65.5%] flex flex-col gap-y-6">
+          <div
+            className={cn(
+              "w-full max-w-full lg:max-w-[65.5%] flex flex-col gap-y-6",
+              classNameMain
+            )}
+          >
             {children}
           </div>
           <div className="w-full  max-w-full lg:max-w-[32%] flex flex-col gap-y-6">

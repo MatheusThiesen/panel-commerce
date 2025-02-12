@@ -20,6 +20,7 @@ export const orderStatusStyle = {
   8: { textColor: "text-red-600", bgColor: "bg-red-600" },
   9: { textColor: "text-purple-500", bgColor: "bg-purple-500" },
   10: { textColor: "text-purple-500", bgColor: "bg-purple-500" },
+  11: { textColor: "text-red-600", bgColor: "bg-red-600" },
 };
 export const orderStatusColorAnalytic = [
   {
@@ -48,6 +49,14 @@ export const orderStatusColorAnalytic = [
   },
   {
     name: "Cancelado",
+    color: "rgb(255, 69, 96)",
+  },
+  {
+    name: "Em analise",
+    color: "rgb(119, 92, 207)",
+  },
+  {
+    name: "Recusado represetante",
     color: "rgb(255, 69, 96)",
   },
   {
@@ -203,6 +212,9 @@ interface OrderAnalyticNormalizedProps {
   averageTicketFomat: string;
   orderAnalytic: OrderAnalyticPeriodProps[];
   series: { data: number[]; name: string }[];
+
+  bestSellingProducts: ProductAnalytic[];
+  bestClickProducts: ProductAnalytic[];
 }
 
 interface OrderAnalyticProps {
@@ -210,7 +222,18 @@ interface OrderAnalyticProps {
   quantidadeTotal: number;
   valorTotal: number;
   ticketMedio: number;
+  produtosMaisClicados: ProductAnalytic[];
+  produtosMaisVendidos: ProductAnalytic[];
 }
+
+type ProductAnalytic = {
+  codigo: number;
+  referencia: string;
+  descricao: string;
+  imagemPreview: string;
+  precoVenda: number;
+  total: number;
+};
 
 interface OrderAnalyticPeriodProps {
   periodo: Date;
@@ -460,6 +483,8 @@ export async function getOrderAnalytic(
     }),
     orderAnalytic: data.analisePeriodo,
     series: normalizedSeries(data),
+    bestSellingProducts: data.produtosMaisVendidos,
+    bestClickProducts: data.produtosMaisClicados,
   };
 }
 
