@@ -262,7 +262,10 @@ export function HomeMain() {
                       </span>
                     </div>
 
-                    <span className="font-bold">{product.total}</span>
+                    <div className="flex">
+                      <span className="font-bold">{product.total}</span>
+                      <span className="font-thin ml-1">itens</span>
+                    </div>
                   </div>
                 ))}
               </ScrollArea>
@@ -298,7 +301,10 @@ export function HomeMain() {
                       </span>
                     </div>
 
-                    <span className="font-bold">{product.total}</span>
+                    <div className="flex">
+                      <span className="font-bold">{product.total}</span>
+                      <span className="font-thin ml-1">clicks</span>
+                    </div>
                   </div>
                 ))}
               </ScrollArea>
@@ -416,7 +422,10 @@ export function HomeMain() {
                       <span className="text-xs font-thin ">{client.cnpj}</span>
                     </div>
 
-                    <span className="font-bold">{client.total}</span>
+                    <div className="flex">
+                      <span className="font-bold">{client.total}</span>
+                      <span className="font-thin ml-1">dias</span>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -440,7 +449,10 @@ export function HomeMain() {
                       <span className="text-xs font-thin ">{seller.email}</span>
                     </div>
 
-                    <span className="font-bold">{seller.total}</span>
+                    <div className="flex">
+                      <span className="font-bold">{seller.total}</span>
+                      <span className="font-thin ml-1">dias</span>
+                    </div>
                   </div>
                 ))}
               </div>
