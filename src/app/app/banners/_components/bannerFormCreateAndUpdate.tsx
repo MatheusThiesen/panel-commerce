@@ -48,6 +48,7 @@ const bannerFormSchema = z.object({
 
   imageMobile: z.any(),
   imageDesktop: z.any(),
+  products: z.any(),
 
   colecoes: z.string().array(),
   locaisEstoque: z.string().array(),
@@ -124,6 +125,7 @@ export function BannerFormCreateAndUpdate({
 
   const watchImageDesktop = watch("imageDesktop");
   const watchImageMobile = watch("imageMobile");
+  const watchProducts = watch("products");
 
   const watchStocksLocationSelected = watch("locaisEstoque");
   const watchGroupsSelected = watch("grupos");
@@ -147,7 +149,7 @@ export function BannerFormCreateAndUpdate({
       formDataImageMobile
     );
 
-    await api.post(`/panel/banners`, {
+    const createdBanner = await api.post(`/panel/banners`, {
       titulo: banner.title,
       imagemDesktopId: responseImageDesktopUploaded.data.id,
       imagemMobileId: responseImageMobileUploaded.data.id,
@@ -159,6 +161,15 @@ export function BannerFormCreateAndUpdate({
       linhas: banner.linhas,
     });
 
+    if (banner.products) {
+      const formDataProducts = new FormData();
+      formDataProducts.append("file", banner.products);
+      await api.post(
+        `/panel/banners/import-products/${createdBanner.data.id}`,
+        formDataProducts
+      );
+    }
+
     queryClient.invalidateQueries({
       queryKey: ["banners"],
     });
@@ -169,7 +180,7 @@ export function BannerFormCreateAndUpdate({
   }
 
   async function updateBanner(banner: BannerFormProps) {
-    await api.put(`/panel/banners/${bannerData?.id}`, {
+    const updatedBanner = await api.put(`/panel/banners/${bannerData?.id}`, {
       titulo: banner.title,
       eAtivo: banner.active === "1",
       colecoes: banner.colecoes,
@@ -179,6 +190,15 @@ export function BannerFormCreateAndUpdate({
       generos: banner.generos,
       linhas: banner.linhas,
     });
+
+    if (banner.products) {
+      const formDataProducts = new FormData();
+      formDataProducts.append("file", banner.products);
+      await api.post(
+        `/panel/banners/import-products/${updatedBanner.data.id}`,
+        formDataProducts
+      );
+    }
 
     queryClient.invalidateQueries({
       queryKey: ["banners"],
@@ -374,12 +394,61 @@ export function BannerFormCreateAndUpdate({
             ))}
         </GroupInput>
 
+        {}
+
+        <FormField
+          name="products"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className="flex-1">
+              <div className="flex flex-col">
+                <FormLabel>Códigos de produto</FormLabel>
+                <span className="text-sm font-thin">
+                  *Apenas arquivos .csv sem cabeçalho e possuir apenas listagem
+                  códigos de produtos
+                </span>
+              </div>
+
+              {watchProducts ? (
+                <div className="flex items-center justify-between bg-panel rounded-md p-2">
+                  <div className="flex items-center">
+                    <FileIcon className="size-8 mr-2" />
+                    <span>{watchProducts.name}</span>
+                  </div>
+
+                  {!bannerData && (
+                    <Button
+                      variant="link"
+                      type="button"
+                      onClick={() => {
+                        setValue("products", undefined as any);
+                      }}
+                    >
+                      <X />
+                    </Button>
+                  )}
+                </div>
+              ) : (
+                <FormControl>
+                  <Dropzone
+                    className="h-28 text-sm mt-3"
+                    accept={{ "text/csv": [], "application/csv": [] }}
+                    onFileUploaded={(file) => {
+                      field.onChange(file[0]);
+                    }}
+                  />
+                </FormControl>
+              )}
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <SheetFooter className="mt-auto ">
-          {/* <SheetClose asChild> */}
           <DetailActionButton className="p-5" type="submit">
             Salvar
           </DetailActionButton>
-          {/* </SheetClose> */}
         </SheetFooter>
       </form>
     </Form>
